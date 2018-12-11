@@ -1,0 +1,23 @@
+function ser = IEP
+% [M]=textread('IndiceEntradaPedidosIndustria2002a2017.csv','%f','delimiter',',','headerlines',0);
+% M=flipud(M);
+M = load(fullfile('data', 'IEP2002a2017.dat'));
+% M=M(9*12+1:end,:);%nos quedamos 2011-2017%
+ser.bg_year = 2011;
+ser.bg_per = 1;
+ser.freq = 12;
+%M=load(fullfile('data','W12.dat'));% 2 series
+% n=size(M,1);% Longitud de las series
+%ser.bg_year=1000; ser.bg_per=1; ser.freq=1;% Fecha ficticia 4 cifras
+%ser.ninput=1;% Hay 1 serie explicativa
+%ser.Yin=M(:,2);% Serie explicativa
+ser.yor = M(:, 1); % Serie explicada
+%ser.nlagtf=-1;% Nro. retardos para ident. automatica determinado por el programa
+%ser.tfident=1;% Se hace identificacion automatica
+ser.autmid = 1;
+ser.pr = 1; %Se crea informe-resumen
+ser.gft = 1; %Se hacen gráficos
+ser.ds = 1;
+ser.fixdif = 0;
+%ser.prelivar=1;
+ser.npr = 4;

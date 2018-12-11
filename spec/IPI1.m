@@ -1,0 +1,25 @@
+function ser = IPI1
+% [M]=textread('IPI1975a2017.csv','%f','delimiter',',','headerlines',0);
+% M=flipud(M);
+M = load(fullfile('data', 'IPI1975a2017.dat'));
+% M=M(36*12+1:end-1,:);%quitamos enero de 2018 y nos quedamos 2011-2017%
+%M=M(1:end-1,:);%quitamos solo enero de 2018
+ser.bg_year = 2011;
+ser.bg_per = 1;
+ser.freq = 12;
+%M=load(fullfile('data','W12.dat'));% 2 series
+% n=size(M,1);% Longitud de las series
+%ser.bg_year=1000; ser.bg_per=1; ser.freq=1;% Fecha ficticia 4 cifras
+%ser.ninput=1;% Hay 1 serie explicativa
+%ser.Yin=M(:,2);% Serie explicativa
+ser.yor = M(:, 1); % Serie explicada
+%ser.nlagtf=-1;% Nro. retardos para ident. automatica determinado por el programa
+%ser.tfident=1;% Se hace identificacion automatica
+ser.autmid = 0;
+ser.q = 2;
+ser.pr = 1; %Se crea informe-resumen
+ser.gft = 1; %Se hacen gráficos
+% ser.ds=0;
+% ser.fixdif=1;
+%ser.prelivar=1;
+ser.npr = 4;
