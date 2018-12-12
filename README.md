@@ -11,7 +11,7 @@ sometimes graphs are written. The subdirectory RESULTS is where
 sometimes program results are written. In the subdirectory SPEC,
 you can find all specification files for the different ARIMA and
 transfer function demos. That is, each specification file contains
-instructions to read data, generate structures, etc. Finnaly, the
+instructions to read data, generate structures, etc. Finally, the
 subdirectory USMSPEC has the same function than the subdirectory
 SPEC but for univariate structural models. 
 
