@@ -1,8 +1,8 @@
 # ssmmatlab
 A set of MATLAB and OCTAVE programs for the statistical analysis of linear time series using mainly state space methods
 
-To install SSMMATLAB, copy the files and subdirectories in this repository
-into a directory, for example SSMMATLAB. There should be 443 files
+To install SSMMATLAB, uncompress the file ssmmatlab_2018_12.zip and copy its 
+contents into a directory, for example SSMMATLAB. There should be 443 files
 with extension m (MATLAB m-files). There should also be five
 subdirectories with names DATA, GRAPHS, RESULTS, SPEC,
 and USMSPEC. All of the data files used in the demos
