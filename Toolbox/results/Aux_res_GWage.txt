@@ -1,0 +1,32 @@
+
+Series: GDP real wage
+
+==================================================
+           Auxiliary residuals: Irregular
+
+Autocorrelation correction factor
+         
+kappa(2)       0.7918 
+kappa(3)       0.7918 
+kappa(4)      -0.2476 
+
+                                                  P-values 
+K: excess kurtosis test               14.7313       0.0000 
+N: Bowman-Shenton normality test     209.8985       0.0000 
+
+
+--------------------------------------------------
+           Auxiliary residuals: Slope
+
+Autocorrelation correction factor
+         
+kappa(2)      22.7139 
+kappa(3)      22.7139 
+kappa(4)      17.9559 
+
+                                                  P-values 
+K: excess kurtosis test               -0.6471       0.7412 
+N: Bowman-Shenton normality test       0.5131       0.7737 
+
+
+--------------------------------------------------
