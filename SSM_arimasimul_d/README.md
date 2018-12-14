@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_arimasimul_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'Firstly, a time series following an ARIMA model is simulated. Then, the model is identified and estimated.'
+
+Keywords: time-series, ARIMA model, simulation, estimation
+
+Author: Víctor Gómez
+
+Submitted: Fri, December 14 2018 by Víctor Gómez
