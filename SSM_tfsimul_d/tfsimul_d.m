@@ -2,7 +2,7 @@
 %The input series is assumed to follow an ARIMA model. The model is
 %
 %  y_t =            u_t           +               v_t
-%      =   (3.0B - 2.0B^2)X_t     +        (1 - 0.7B)/(1-B)A_t
+%      =   (3.0B - 2.0B^2)x_t     +        (1 - 0.7B)/(1-B)A_t
 %
 % where x_t follows the model
 %
