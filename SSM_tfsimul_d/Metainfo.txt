@@ -1,4 +1,4 @@
-Name of QuantLet: SSM_tfsimul_d
+Name of QuantLet: SSM_tfsimul2_d
 
 Published in: Linear Time Series With MATLAB and Octave
 
