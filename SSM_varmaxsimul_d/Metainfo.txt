@@ -1,4 +1,4 @@
-Name of QuantLet: SSM_varmaxsimul_d
+Name of QuantLet: SSM_varmaxsim_d
 
 Published in: Linear Time Series With MATLAB and Octave
 
