@@ -2,7 +2,7 @@
 %The input series is assumed to follow an ARIMA model. The model is
 %
 %  y_t =            u_t           +               v_t
-%      =   (3.0B - 2.0B^2)X_t     +        (1 - 0.7B)/(1-B)A_t
+%      =   (3.0B - 2.0B^2)x_t     +        (1 - 0.7B)/(1-B)A_t
 %
 % where x_t follows the model
 %
@@ -61,5 +61,5 @@ y = v + u;
 % out=arimaeasy(v,freq,'pr',1,'gft',1,'sname','myseries');
 
 %Identify and estimate the model
-out = tfeasy(y, x, freq, 'pr', 1, 'gft', 1, 'sname', 'mytfseries', 'tfident', 1, ...
-    'autmid', 1);
+out = tfeasy(y, x, freq, 'gft', 1, 'sname', 'mytfseries', 'tfident', 1, ...
+             'autmid', 1);
