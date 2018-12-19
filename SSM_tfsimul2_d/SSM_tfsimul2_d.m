@@ -61,5 +61,5 @@ y = v + u;
 % out=arimaeasy(v,freq,'pr',1,'gft',1,'sname','myseries');
 
 %Identify and estimate the model
-out = tfeasy(y, x, freq, 'pr', 1, 'gft', 1, 'sname', 'mytfseries', 'tfident', 1, ...
-    'autmid', 1);
+out = tfeasy(y, x, freq, 'gft', 1, 'sname', 'mytfseries', 'tfident', 1, ...
+             'autmid', 1);
