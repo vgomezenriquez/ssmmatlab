@@ -1,1 +1,11 @@
+Name of QuantLet: SSM_TsayEx23_d
 
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A VAR(2) model is estimated. This is Example 2.3 in Tsay (2014).'
+
+Keywords: time-series, VAR model, OLS estimation
+
+Author: Víctor Gómez
+
+Submitted: Wed, December 19 2018 by Víctor Gómez
