@@ -186,5 +186,5 @@ Order     Autcor         SE    Q-stats       DF P-values     Parcor         SE
 _________
 When DF is positive, P-values should be greater than 0.05
 (at the 5 per cent level) for model adequacy
-Elapsed time:     1.21
+Elapsed time:     1.48
 
