@@ -2,7 +2,7 @@ Name of QuantLet: SSM_varmasimul_d
 
 Published in: Linear Time Series With MATLAB and Octave
 
-Description: 'Firstly, a time series following VARMA model is simulated. Then, the model is estimated by the Hannan-Rissanen method.'
+Description: 'Firstly, a time series following a VARMA model is simulated. Then, the model is estimated by the Hannan-Rissanen method.'
 
 Keywords: time-series, VARMA model, simulation, estimation
 
