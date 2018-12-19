@@ -8,5 +8,5 @@ Keywords: time-series, white noise, simulation, Portmanteau statistic
 
 Author: Víctor Gómez
 
-Submitted: Wed, December 18 2018 by Víctor Gómez
+Submitted: Wed, December 19 2018 by Víctor Gómez
 
