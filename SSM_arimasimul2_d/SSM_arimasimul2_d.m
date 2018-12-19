@@ -12,3 +12,7 @@ thr = [-.4, 1];
 y = arimasimeasy(freq, '[p dr q]', [2, 0, 1], '[ps ds qs]', [0, 0, 0], ...
     'phir', phir, 'thr', thr, 'N', 100, 'discard', ...
     50, 'seed', 20, 'gft', 1);
+
+plot(y);
+title('Simulated series');
+axis('tight');
