@@ -1,1 +1,12 @@
+Name of QuantLet: SSM_varmasimul3_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'Firstly, a normally distributed white noise is simulated. Then, the Portmanteau statistic is computed for several lags.'
+
+Keywords: time-series, white noise, simulation, Portmanteau statistic
+
+Author: Víctor Gómez
+
+Submitted: Wed, December 18 2018 by Víctor Gómez
 
