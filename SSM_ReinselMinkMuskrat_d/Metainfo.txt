@@ -1,1 +1,11 @@
+Name of QuantLet: SSM_ReinselMinkMuskrat_d
 
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A VAR model for the Mink and Muskrat data is identified and estimated. See Reinsel (1997)'
+
+Keywords: time-series, VAR model, identification, estimation
+
+Author: Víctor Gómez
+
+Submitted: Wed, December 19 2018 by Víctor Gómez
