@@ -126,7 +126,7 @@ disp(stre.qstat)
 disp('p-values of Q statistics:')
 disp(stre.pval)
 [m,n]=size(stre.pval); t=1:m;
-plot(t,0.05*ones(1,m),t,stre.pval)
+plot(t, stre.pval, t, 0.05*ones(1, m))
 legend('p-values of Q statistics:')
 disp('press any key to continue')
 pause

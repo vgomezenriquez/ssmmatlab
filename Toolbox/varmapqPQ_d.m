@@ -103,7 +103,7 @@ disp('Q statistics:')
 disp(str.qstat)
 
 [m,n]=size(str.pval); t=1:m;
-plot(t,0.05*ones(1,m),t,str.pval)
+plot(t, str.pval, t, 0.05*ones(1, m))
 legend('p-values of Q statistics:')
 pause
 close all
