@@ -8,4 +8,4 @@ Keywords: time-series, transfer function model, simulation, estimation
 
 Author: Víctor Gómez
 
-Submitted: Mon, December 17 2018 by Víctor Gómez
+Submitted: Wed, December 19 2018 by Víctor Gómez
