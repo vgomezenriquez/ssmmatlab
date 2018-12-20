@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_TsayEx32_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'An MA(1) model is identified and estimated for the three series of Example 3.2 in Tsay (2014).'
+
+Keywords: time-series, VARMA model, identification, estimation
+
+Author: Víctor Gómez
+
+Submitted: Thu, December 20 2018 by Víctor Gómez
