@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_reinselex82_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A VAR and a VARMA model for the data in Exercise 8.2 of Reinsel (1997) are estimated'
+
+Keywords: time-series, VAR model, VARMA model, estimation
+
+Author: Víctor Gómez
+
+Submitted: Fri, December 28 2018 by Víctor Gómez
