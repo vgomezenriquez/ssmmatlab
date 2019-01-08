@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_armapqPQ_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'an ARIMA model for the airline series of Box and Jenkins (1976) is identified and estimated.'
+
+Keywords: time-series, ARIMA model, identification, estimation
+
+Author: Víctor Gómez
+
+Submitted: Tue, January 8 2019 by Víctor Gómez
