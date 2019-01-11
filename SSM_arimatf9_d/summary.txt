@@ -1,0 +1,67 @@
+r1 ( 0 , 0 , 2 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+       1  ny= 150 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r2 ( 2 , 0 , 0 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+       2  ny= 162 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r3 ( 0 , 1 , 1 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+       3  ny= 147 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r4 ( 0 , 1 , 1 )( 1 , 0 , 0 )_  6 lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+       4  ny= 161 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r5 ( 0 , 2 , 2 ) lam= 0 mean= 0 nreg0=  0 trade= 0 leapy= 0
+       5  ny= 155 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r6 ( 2 , 1 , 0 ) lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+       6  ny= 178 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r7 ( 1 , 0 , 0 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+       7  ny= 149 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r8 ( 1 , 1 , 0 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+       8  ny= 148 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r9 ( 0 , 1 , 1 ) lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+       9  ny= 151 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+r10 ( 0 , 1 , 2 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+      10  ny= 146 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s1 ( 0 , 1 , 1 )( 0 , 1 , 1 )_ 12 lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      11  ny= 150 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s2 ( 1 , 0 , 0 )( 0 , 1 , 1 )_ 12 lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      12  ny= 162 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s3 ( 0 , 1 , 0 )( 0 , 0 , 1 )_ 12 lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      13  ny= 147 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s4 ( 0 , 0 , 1 )( 1 , 0 , 0 )_ 12 lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+      14  ny= 161 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s5 ( 1 , 0 , 0 )( 0 , 1 , 0 )_ 12 lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+      15  ny= 155 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s6 ( 0 , 1 , 1 )( 0 , 1 , 0 )_  4 lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      16  ny= 178 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s7 ( 0 , 2 , 0 )( 1 , 0 , 0 )_  6 lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      17  ny= 149 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s8 ( 2 , 0 , 0 )( 0 , 0 , 1 )_  6 lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+      18  ny= 148 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s9 ( 0 , 0 , 1 )( 0 , 1 , 0 )_ 12 lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+      19  ny= 151 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+s10 ( 0 , 1 , 1 )( 1 , 1 , 0 )_ 12 lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      20  ny= 145 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+seriea ( 0 , 1 , 1 ) lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      21  ny= 197 east(0)= 0  nrout= 0  C= 3.9  met= HR 
+seriec ( 1 , 1 , 0 ) lam= 1 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      22  ny= 226 east(0)= 0  nrout= 0  C= 3.9  met= HR 
+seriee ( 2 , 0 , 1 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+      23  ny= 100 east(0)= 0  nrout= 0  C= 3.7  met= HR 
+serief ( 1 , 0 , 0 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+      24  ny= 70 east(0)= 0  nrout= 0  C= 3.6  met= HR 
+bjsgairls ( 0 , 1 , 1 )( 0 , 1 , 1 )_ 12 lam= 0 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      25  ny= 144 east(0)= 0  nrout= 0  C= 3.8  met= HR 
+bjsaless ( 0 , 1 , 1 ) lam= 1 mean= 1 nreg0= 13 trade= 0 leapy= 0
+      26  ny= 138 east(0)= 0  nrout= 0  C= 4.2  met= HR 
+bjsaless ( 0 , 1 , 1 ) lam= 1 mean= 1 nreg0= 13 trade= 0 leapy= 0
+      26  ny= 150 east(0)= 0  nrout= 0  C= 4.2  met= HR 
+vstoress ( 2 , 1 , 0 )( 0 , 1 , 1 )_ 12 lam= 0 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      27  ny= 153 east(0)= 0  nrout= 4  C= 3.0  met= EML
+          out=  112  LS  45  TC  96  AO  14  AO
+retails ( 0 , 1 , 2 )( 0 , 1 , 1 )_ 12 lam= 0 mean= 0 nreg0=  0 trade= 6 leapy= 0
+      28  ny= 153 east(6)= 1  nrout= 0  C= 3.8  met= HR 
+btozone ( 1 , 0 , 0 )( 0 , 1 , 1 )_ 12 lam= 1 mean= 0 nreg0=  3 trade= 0 leapy= 0
+      29  ny= 216 east(0)= 0  nrout= 0  C= 3.0  met= EML
+wholesale ( 0 , 1 , 1 )( 0 , 1 , 1 )_ 12 lam= 0 mean= 0 nreg0=  0 trade= 1 leapy= 0
+      30  ny= 155 east(6)= 1  nrout= 0  C= 3.8  met= HR 
+lbma ( 0 , 0 , 1 ) lam= 1 mean= 1 nreg0=  0 trade= 0 leapy= 0
+      31  ny= 75 east(0)= 0  nrout= 0  C= 3.7  met= HR 
+lbsales ( 2 , 1 , 0 )( 0 , 1 , 1 )_ 12 lam= 0 mean= 0 nreg0=  0 trade= 0 leapy= 0
+      32  ny= 77 east(0)= 0  nrout= 0  C= 3.7  met= HR 
