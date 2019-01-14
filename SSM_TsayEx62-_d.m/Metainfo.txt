@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_TsayEx62_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A VARMAX model is indenfied and estimated. This is Example 6.2 in Tsay (2014).'
+
+Keywords: time-series, VARMAX model, estimation, AIC, BIC, conditional method
+
+Author: Víctor Gómez
+
+Submitted: Mon, January 19 2019 by Víctor Gómez
