@@ -455,7 +455,7 @@ strv.nparm = strv.nparm - 7;
 strv = mhanris(yo, x, seas, strv, hr3, finv2);
 
 disp(' ');
-disp('***** Estimated constrained VARMA(4,1) Model  *****');
+disp('***** Estimated constrained VARMAX(4,0,4) Model  *****');
 disp(' ');
 clear in
 in.fid = 1;
