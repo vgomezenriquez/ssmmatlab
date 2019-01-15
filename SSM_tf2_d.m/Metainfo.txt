@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_tf2_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A transfer function model is estimated. The series is tf2, documented in the software package SCA.'
+
+Keywords: time-series, transfer function model, exact maximum likelihood method
+
+Author: Víctor Gómez
+
+Submitted: Tue, January 15 2019 by Víctor Gómez
