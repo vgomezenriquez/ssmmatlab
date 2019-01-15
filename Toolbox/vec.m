@@ -13,10 +13,8 @@ function v = vec(x)
 
 % Modified by J.P. LeSage
 
-  if (nargin ~= 1)
-  error('Wrong # of arguments to vec'); 
-  end 
-  
-  v = x(:);
-  
-  
+if (nargin ~= 1)
+    error('Wrong # of arguments to vec');
+end
+
+v = x(:);
