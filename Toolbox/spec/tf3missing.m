@@ -56,4 +56,3 @@ ser.nlagtf = nlagtf;
 ser.tfident = tfident;
 ser.gft = 1;
 ser.olsres = 1;
-ser.yor = yor - 5 .* ones(size(yor)) + 2 .* (1:115)';
