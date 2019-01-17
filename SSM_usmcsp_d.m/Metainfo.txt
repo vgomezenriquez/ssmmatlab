@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_usmcsp_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A structural model with complex seasonal patterns is estimated. The series is used in Delivera et al (2011).'
+
+Keywords: time-series, structural model, complex seasonal patterns
+
+Author: Víctor Gómez
+
+Submitted: Thu, January 17 2019 by Víctor Gómez
