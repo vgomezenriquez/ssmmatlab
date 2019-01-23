@@ -2,7 +2,7 @@ Name of QuantLet: SSM_candec_d
 
 Published in: Linear Time Series With MATLAB and Octave
 
-Description: 'A canonical decomposition of an ARIMA model is performed.'
+Description: 'The canonical decomposition of an ARIMA model is performed.'
 
 Keywords: time-series, ARIMA model, canonical decomposition
 
