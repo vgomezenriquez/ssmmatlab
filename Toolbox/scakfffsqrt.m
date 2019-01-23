@@ -330,21 +330,42 @@ for i = 1:n
         nzz = size(ZZ, 1);
         %make square root of Sigma_t equal to Cholesky factor to stabilize the
         %residuals
+        singular = 0;
+        cont = 0;
         for ii = 1:nzz
             if RR(ii, ii) < 0
                 RR(ii, :) = -RR(ii, :);
             end
+            if abs(RR(ii, ii)) < eps
+                cont = cont + 1;
+            end
         end
-        Frt = RR(1:nzz, 1:nzz)'; %Sigma_t^{1/2}
-        whK = RR(1:nzz, nzz+1:nzz+nlp)'; %\tilde K_t
-        whKf = RR(1:nzz, nzz+nlp+1:nzz+2*nlp)'; %\tilde Kf_t
-        LPf = RR(nzz+1:nzz+nlp, nzz+nlp+1:nzz+2*nlp)'; %P_{t|t}^[1/2}
-        DD = Frt \ V; %\tilde E_t
+        if cont == nzz
+            singular = 1;
+        elseif cont > 0
+            singular = 2;
+        end
+        if singular == 0
+            Frt = RR(1:nzz, 1:nzz)'; %Sigma_t^{1/2}
+            whK = RR(1:nzz, nzz+1:nzz+nlp)'; %\tilde K_t
+            whKf = RR(1:nzz, nzz+nlp+1:nzz+2*nlp)'; %\tilde Kf_t
+            LPf = RR(nzz+1:nzz+nlp, nzz+nlp+1:nzz+2*nlp)'; %P_{t|t}^[1/2}
+            DD = Frt \ V; %\tilde E_t
+        elseif singular == 1
+            MM = [LP' * TT'; HH'];
+            [~, RR] = qr(MM);
+            DD = zeros(nzz, ndb1);
+            V = zeros(size(V));
+            nmiss = nmiss + p;
+            miss = p;
+        elseif singular == 2
+            error('innovations covariance singular in scakfffsqrt')
+        end
     elseif miss == p
         MM = [LP' * TT'; HH'];
         [~, RR] = qr(MM);
-        DD = [];
-        V = [];
+        DD = zeros(p, ndb1);
+        V = zeros(size(ZZ,1),size(A,2));
     else
         if ndelta > 0
             V = [zeros(p, ndelta), full(XX), YY] - ZZ * A;
@@ -357,16 +378,37 @@ for i = 1:n
         nzz = size(ZZ, 1);
         %make square root of Sigma_t equal to Cholesky factor to stabilize the
         %residuals
+        singular = 0;
+        cont = 0;
         for ii = 1:nzz
             if RR(ii, ii) < 0
                 RR(ii, :) = -RR(ii, :);
             end
+            if abs(RR(ii, ii)) < eps
+                cont = cont + 1;
+            end
         end
-        Frt = RR(1:nzz, 1:nzz)'; %Sigma_t^{1/2}
-        whK = RR(1:nzz, nzz+1:nzz+nlp)'; %\tilde K_t
-        whKf = RR(1:nzz, nzz+nlp+1:nzz+2*nlp)'; %\tilde Kf_t
-        LPf = RR(nzz+1:nzz+nlp, nzz+nlp+1:nzz+2*nlp)'; %P_{t|t}^[1/2}
-        DD = Frt \ V; %\tilde E_t
+        if cont == nzz
+            singular = 1;
+        elseif cont > 0
+            singular = 2; 
+        end
+        if singular == 0
+            Frt = RR(1:nzz, 1:nzz)'; %Sigma_t^{1/2}
+            whK = RR(1:nzz, nzz+1:nzz+nlp)'; %\tilde K_t
+            whKf = RR(1:nzz, nzz+nlp+1:nzz+2*nlp)'; %\tilde Kf_t
+            LPf = RR(nzz+1:nzz+nlp, nzz+nlp+1:nzz+2*nlp)'; %P_{t|t}^[1/2}
+            DD = Frt \ V; %\tilde E_t
+        elseif singular == 1
+            MM = [LP' * TT'; HH'];
+            [~, RR] = qr(MM);
+            DD = zeros(p, ndb1);
+            V = zeros(size(V));
+            nmiss = nmiss + p;
+            miss = p;
+        elseif singular == 2
+            error('innovations covariance singular in scakfffsqrt')
+        end
     end
     %
     % update number of nonmissing

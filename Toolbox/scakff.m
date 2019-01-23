@@ -86,14 +86,12 @@ cca1 = i(4);
 %
 % check for inconsistencies
 %
-%this part added on 24-3-2017
 np = n * p;
 nnalpha = n * nalpha;
 if nbeta > np
     disp('too many regressors in scakff')
     return
 end
-%end of addition
 if mi ~= nalpha
     disp('the number of rows in ins is incorrect')
     return
@@ -178,7 +176,6 @@ if cw0 == 0
 else
     W0 = ins(:, cc+1:cc+cw0);
 end
-%W0
 if ca1 == 0
     a1 = zeros(nalpha, 1);
 else
@@ -323,25 +320,19 @@ for i = 1:n
             Frt = CF';
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1)
-            if ndb == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p-miss, ndb1);
             K = zeros(nalpha, p-miss);
+            V = zeros(size(V));
+            nmiss = nmiss + p;
+            miss = p;
         else
-            error('singular matrix different from zero in scakff')
+            error('innovations covariance singular in scakff')
         end
     elseif miss == p
-        if ndb == 0
-            DD = [];
-            V = [];
-        else
-            DD = zeros(p, ndb1);
-            V = [];
-        end
+        DD = zeros(p, ndb1);
         K = zeros(nalpha, p);
+        V = zeros(p,size(A,2));
     else
         if ifg == 0
             GG2 = GG * GG';
@@ -355,21 +346,20 @@ for i = 1:n
             end
         end
         V = [zeros(p, ndelta), full(XX), YY] - ZZ * A;
-        F = ZZ * P * ZZ' + GG2;
+        F = ZZ * P * ZZ' + GG2;     
         [CF, cp] = chol(F);
         if cp == 0
             Frt = CF';
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1)
-            if ndb == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p, ndb1);
             K = zeros(nalpha, p);
+            V = zeros(size(V));
+            nmiss = nmiss + p;
+            miss = p;
         else
-            error('singular matrix different from zero in scakff')
+            error('innovations covariance singular in scakff')
         end
     end
     %
@@ -389,7 +379,7 @@ for i = 1:n
         if (miss ~= p)
             U = SQTd(1:nbeta, 1:nbeta);
             invu = pinv(U);
-            hd = invu * SQTd(1:nbeta, nb1);
+            hd = invu * SQTd(1:nbeta, nb1);  
             Md = invu * invu';
             [Q, SQTp] = qr([SQTd(1:ndb, 1:ndb); DD(:, 1:ndb)]);
             idp = size(SQTp, 1);
@@ -443,7 +433,7 @@ for i = 1:n
                 else
                     nets = size(DD, 1);
                     sec = repmat(i, size(DD));
-                    recrs(idxpm1+1:idxpm1+nets, :) = [DD, sec];
+                    recrs(idxpm1+1:idxpm1+nets, :) = [DD, sec]; 
                     recr(idxpm1+1:idxpm1+nets, :) = [V, sec];
                     idxpm1 = idxpm1 + nets;
                     fst = vech(Frt*Frt');
@@ -464,7 +454,7 @@ for i = 1:n
     %
     % measurement update
     %
-    ia = (i - 1) * nalpha + 1:i * nalpha;
+    ia = (i - 1) * nalpha + 1:i * nalpha; 
     if (collps == 1) && (nomiss > nd + nbeta)
         if (miss < p)
             deno = i * p - nmiss - ndbc;
@@ -503,7 +493,6 @@ for i = 1:n
         A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + K * V;
         P = TT * P * (TT - K * ZZ)' + HH2 - HG * K';
     end
-    
     %
     % single collapse if possible
     %
@@ -511,7 +500,7 @@ for i = 1:n
         LL = SQT(1:nd, 1:nd);
         if rank(LL) == ndelta
             Rm1 = LL \ eye(nd);
-            hd = Rm1 * SQT(1:nd, nd+1:ndb1);
+            hd = Rm1 * SQT(1:nd, nd+1:ndb1); 
             M = Rm1 * Rm1';
             AA = A(:, 1:nd);
             P = P + AA * M * AA';
@@ -520,7 +509,7 @@ for i = 1:n
             % pass from SQT to SQTd after collapsing
             %
             nidx = idxi - nd;
-            if nidx > 0 && nomiss >= ndb && nbeta > 0
+            if nidx > 0 && nbeta > 0  
                 SQTd(1:idxi-nd, :) = SQT(nd+1:idxi, nd+1:ndb1);
             end
             %
@@ -585,6 +574,15 @@ for i = 1:n
         end
     end
 end
+if nbeta > 0
+    if (miss ~= p)
+        U = SQTd(1:nbeta, 1:nbeta);
+        invu = pinv(U);
+        hd = invu * SQTd(1:nbeta, nb1);  
+        Md = invu * invu';
+    end
+end
+
 if (idx1 > 0)
     recrs = recrs(1:idx1);
     recr = recr(1:idx1);

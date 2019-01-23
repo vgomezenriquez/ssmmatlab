@@ -284,17 +284,44 @@ for i = 1:n
         MM = [LP' * ZZ', LP' * TT'; GG', HH'];
         [~, RR] = qr(MM);
         nzz = size(ZZ, 1);
-        Frt = RR(1:nzz, 1:nzz)';
-        whK = RR(1:nzz, nzz+1:nzz+nlp)';
-        LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
-        DD = Frt \ V;
-        A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
-    elseif miss == p
-        if ndelta == 0
-            DD = [];
-        else
-            DD = zeros(p, ndb1);
+        singular = 0;
+        cont = 0;
+        for ii = 1:nzz
+            if RR(ii, ii) < 0
+                RR(ii, :) = -RR(ii, :);
+            end
+            if abs(RR(ii, ii)) < eps
+                cont = cont + 1;
+            end
         end
+        if cont == nzz
+            singular = 1;
+        elseif cont > 0
+            singular = 2;
+        end
+        if singular == 0
+            Frt = RR(1:nzz, 1:nzz)';
+            whK = RR(1:nzz, nzz+1:nzz+nlp)';
+            LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
+            DD = Frt \ V;
+            A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
+        elseif singular == 1
+            DD = zeros(p-miss, ndb1);
+            MM = [LP' * TT'; HH'];
+            [~, RR] = qr(MM);
+            LP = RR(1:nlp, 1:nlp)';
+            A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A;
+            miss = p;
+        elseif singular == 2
+            error('innovations covariance singular in scakflssqrt')
+        end
+%         Frt = RR(1:nzz, 1:nzz)';
+%         whK = RR(1:nzz, nzz+1:nzz+nlp)';
+%         LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
+%         DD = Frt \ V;
+%         A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
+    elseif miss == p
+        DD = zeros(p, ndb1);
         MM = [LP' * TT'; HH'];
         [~, RR] = qr(MM);
         LP = RR(1:nlp, 1:nlp)';
@@ -304,19 +331,43 @@ for i = 1:n
         MM = [LP' * ZZ', LP' * TT'; GG', HH'];
         [~, RR] = qr(MM);
         nzz = size(ZZ, 1);
-        Frt = RR(1:nzz, 1:nzz)';
-        whK = RR(1:nzz, nzz+1:nzz+nlp)';
-        LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
-        DD = Frt \ V;
-        A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
+        singular = 0;
+        cont = 0;
+        for ii = 1:nzz
+            if RR(ii, ii) < 0
+                RR(ii, :) = -RR(ii, :);
+            end
+            if abs(RR(ii, ii)) < eps
+                cont = cont + 1;
+            end
+        end
+        if cont == nzz
+            singular = 1;
+        elseif cont > 0
+            singular = 2;
+        end
+        if singular == 0
+            Frt = RR(1:nzz, 1:nzz)';
+            whK = RR(1:nzz, nzz+1:nzz+nlp)';
+            LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
+            DD = Frt \ V;
+            A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
+        elseif singular == 1
+            DD = zeros(p, ndb1);
+            MM = [LP' * TT'; HH'];
+            [~, RR] = qr(MM);
+            LP = RR(1:nlp, 1:nlp)';
+            A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A;
+            miss = p;
+        elseif singular == 2
+            error('innovations covariance singular in scakflesqrt')
+        end
     end
     %
     % SQT updating
     %
     if ndb > 0
-        [~, SQT] = qr([DD; SQT(1:ndb, :)]);
-        %     else
-        %      SQT=DD;
+        [~, SQT] = qr([DD; SQT(1:ndb, :)]); 
     end
     if miss == p
         AV(ip, :) = [zeros(p, nd-ndelta), zeros(p, ndb1)];
@@ -329,7 +380,8 @@ for i = 1:n
         DDm = zeros(p, ndb1);
         DDm(idn, :) = DD;
         AV(ip, :) = [zeros(p, nd-ndelta), DDm];
-        Frtm1 = Frt \ eye(p-miss);
+%         Frtm1 = Frt \ eye(p-miss);
+        Frtm1 = pinv(Frt);
         fstm = zeros(p);
         fstm(idn, idn) = Frtm1;
         FST(ip, :) = fstm;

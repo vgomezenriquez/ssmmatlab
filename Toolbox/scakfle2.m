@@ -196,7 +196,7 @@ else
 end
 A = [-aa1, -full(W0), a1];
 nd = ndelta;
-ndb = ndelta + nbeta;
+ndb = ndelta + nbeta; 
 ndb1 = ndb + 1;
 nb1 = nbeta + 1;
 missingt = sum(sum(isnan(y))); %number of missing data
@@ -224,7 +224,7 @@ if mh <= nalpha
     end
     ifh = 1;
 end
-%
+ 
 for i = 1:n
     %   i
     ip = (i - 1) * p + 1:i * p;
@@ -298,23 +298,18 @@ for i = 1:n
             [f, fc] = updatef(f, fc);
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1) %F is zero
-            if ndelta == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p-miss, ndb1);
             K = zeros(nalpha, p-miss);
+            V = zeros(size(V));
+            miss = p;
         else
-            error('singular matrix different from zero in scakfle2')
+            error('innovations covariance singular in scakff')
         end
     elseif miss == p
-        if ndelta == 0
-            DD = [];
-        else
-            DD = zeros(p, ndb1);
-        end
+        DD = zeros(p, ndb1);
         K = zeros(nalpha, p);
+        V = zeros(p,size(A,2));
     else
         if ifg == 0
             GG2 = GG * GG';
@@ -328,7 +323,7 @@ for i = 1:n
             end
         end
         V = [zeros(p, ndelta), full(XX), YY] - ZZ * A;
-        F = ZZ * P * ZZ' + GG2;
+        F = ZZ * P * ZZ' + GG2;   
         [CF, cp] = chol(F);
         if cp == 0
             Frt = CF';
@@ -336,15 +331,13 @@ for i = 1:n
             [f, fc] = updatef(f, fc);
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1) %F is zero
-            if ndelta == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p, ndb1);
             K = zeros(nalpha, p);
+            V = zeros(size(V));
+            miss = p;
         else
-            error('singular matrix different from zero in scakfle2')
+            error('innovations covariance singular in scakff')
         end
     end
     %
@@ -362,7 +355,7 @@ for i = 1:n
         SQTi = [SQTp, Q' * [DD(:, ndb1); SQT(1:lb, ndb1)]];
         idx = size(SQTi, 1);
         SQT(1:idx, :) = SQTi;
-    else
+    elseif miss < p
         ndd = size(DD, 1);
         if ndd > 0
             SQTd(idx+1:idx+ndd, :) = DD;
@@ -395,14 +388,14 @@ for i = 1:n
             % idx is the number of rows of SQT different from zero.
             %
             nidx = idx - nd;
-            if nidx > 0 && nmiss >= ndb
+            if nidx > 0  
                 SQTd(1:idx-nd, :) = SQT(nd+1:idx, nd+1:ndb1);
                 idx = nidx;
             else
                 idx = 0;
             end
             clear SQT
-            ndelta = 0;
+            ndelta = 0; 
             ndb1 = nb1;
             collps = 1;
         end

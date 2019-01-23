@@ -215,7 +215,7 @@ if mh <= nalpha
     end
     ifh = 1;
 end
-%
+ 
 for i = 1:n
     %   i
     ip = (i - 1) * p + 1:i * p;
@@ -287,23 +287,18 @@ for i = 1:n
             Frt = CF';
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1) %F is zero
-            if ndelta == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p-miss, ndb1);
             K = zeros(nalpha, p-miss);
+            V = zeros(size(V));
+            miss = p;
         else
-            error('singular matrix different from zero in scakfle2')
+            error('innovations covariance singular in scakfs')
         end
     elseif miss == p
-        if ndelta == 0
-            DD = [];
-        else
-            DD = zeros(p, ndb1);
-        end
+        DD = zeros(p, ndb1);
         K = zeros(nalpha, p);
+        V = zeros(p,size(A,2));
     else
         if ifg == 0
             GG2 = GG * GG';
@@ -317,21 +312,19 @@ for i = 1:n
             end
         end
         V = [zeros(p, ndelta), full(XX), YY] - ZZ * A;
-        F = ZZ * P * ZZ' + GG2;
+        F = ZZ * P * ZZ' + GG2;  
         [CF, cp] = chol(F);
         if cp == 0
             Frt = CF';
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1) %F is zero
-            if ndelta == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p, ndb1);
             K = zeros(nalpha, p);
+            V = zeros(size(V));
+            miss = p;
         else
-            error('singular matrix different from zero in scakfle2')
+            error('innovations covariance singular in scakfs')
         end
     end
     %
@@ -357,7 +350,8 @@ for i = 1:n
         DDm = zeros(p, ndb1);
         DDm(idn, :) = DD;
         AV(ip, :) = [zeros(p, nd-ndelta), DDm];
-        Frtm1 = Frt \ eye(p-miss);
+%         Frtm1 = Frt \ eye(p-miss);
+        Frtm1 = pinv(Frt);
         fstm = zeros(p);
         fstm(idn, idn) = Frtm1;
         FST(ip, :) = fstm;

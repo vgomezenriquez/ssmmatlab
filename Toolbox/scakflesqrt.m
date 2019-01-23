@@ -227,7 +227,7 @@ f = 1;
 fc = 0;
 nmiss = 0;
 missing = 0;
-%
+ 
 for i = 1:n
     %   i
     ip = (i - 1) * p + 1:i * p;
@@ -295,24 +295,41 @@ for i = 1:n
         [nzz, ~] = size(ZZ);
         %make square root of Sigma_t equal to Cholesky factor to stabilize the
         %residuals
+        singular = 0;
+        cont = 0;
         for ii = 1:nzz
             if RR(ii, ii) < 0
                 RR(ii, :) = -RR(ii, :);
             end
+            if abs(RR(ii, ii)) < eps
+                cont = cont + 1;
+            end
         end
-        Frt = RR(1:nzz, 1:nzz)';
-        whK = RR(1:nzz, nzz+1:nzz+nlp)';
-        f = f * prod(abs(diag(Frt)));
-        [f, fc] = updatef(f, fc);
-        LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
-        DD = Frt \ V;
-        A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
+        if cont == nzz
+            singular = 1;
+        elseif cont > 0
+            singular = 2;
+        end
+        if singular == 0
+            Frt = RR(1:nzz, 1:nzz)';
+            whK = RR(1:nzz, nzz+1:nzz+nlp)';
+            f = f * prod(abs(diag(Frt)));
+            [f, fc] = updatef(f, fc);
+            LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
+            DD = Frt \ V;
+            A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
+        elseif singular == 1
+            DD = zeros(p-miss, ndb1);
+            MM = [LP' * TT'; HH'];
+            [~, RR] = qr(MM);
+            LP = RR(1:nlp, 1:nlp)';
+            A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A;
+            miss = p;
+        elseif singular == 2
+            error('innovations covariance singular in scakflesqrt')
+        end
     elseif miss == p
-        if ndelta == 0
-            DD = [];
-        else
-            DD = zeros(p, ndb1);
-        end
+        DD = zeros(p, ndb1);
         MM = [LP' * TT'; HH'];
         [~, RR] = qr(MM);
         LP = RR(1:nlp, 1:nlp)';
@@ -324,18 +341,39 @@ for i = 1:n
         [nzz, ~] = size(ZZ);
         %make square root of Sigma_t equal to Cholesky factor to stabilize the
         %residuals
+        singular = 0;
+        cont = 0;
         for ii = 1:nzz
             if RR(ii, ii) < 0
                 RR(ii, :) = -RR(ii, :);
             end
+            if abs(RR(ii, ii)) < eps
+                cont = cont + 1;
+            end
         end
-        Frt = RR(1:nzz, 1:nzz)';
-        whK = RR(1:nzz, nzz+1:nzz+nlp)';
-        f = f * prod(abs(diag(Frt)));
-        [f, fc] = updatef(f, fc);
-        LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
-        DD = Frt \ V;
-        A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
+        if cont == nzz
+            singular = 1;
+        elseif cont > 0
+            singular = 2;
+        end
+        if singular == 0
+            Frt = RR(1:nzz, 1:nzz)';
+            whK = RR(1:nzz, nzz+1:nzz+nlp)';
+            f = f * prod(abs(diag(Frt)));
+            [f, fc] = updatef(f, fc);
+            LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';
+            DD = Frt \ V;
+            A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD;
+        elseif singular == 1
+            DD = zeros(p, ndb1);
+            MM = [LP' * TT'; HH'];
+            [~, RR] = qr(MM);
+            LP = RR(1:nlp, 1:nlp)';
+            A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A;
+            miss = p;
+        elseif singular == 2
+            error('innovations covariance singular in scakflesqrt')
+        end
     end
     %
     % update number of nonmissing and missing values
@@ -352,7 +390,7 @@ for i = 1:n
         SQTi = [SQTp, Q' * [DD(:, ndb1); SQT(1:lb, ndb1)]];
         idx = size(SQTi, 1);
         SQT(1:idx, :) = SQTi;
-    else
+    elseif miss < p
         ndd = size(DD, 1);
         if ndd > 0
             SQTd(idx+1:idx+ndd, :) = DD;
@@ -380,7 +418,7 @@ for i = 1:n
             % idx is the number of rows of SQT different from zero.
             %
             nidx = idx - nd;
-            if nidx > 0 && nmiss >= ndb
+            if nidx > 0  
                 SQTd(1:idx-nd, :) = SQT(nd+1:idx, nd+1:ndb1);
                 idx = nidx;
             else

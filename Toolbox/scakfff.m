@@ -92,7 +92,7 @@ cca1 = i(4);
 np = n * p;
 nnalpha = n * nalpha;
 if nbeta > np
-    disp('too many regressors in scakff')
+    disp('too many regressors in scakfff')
     return
 end
 if mi ~= nalpha
@@ -332,25 +332,19 @@ for i = 1:n
             Frt = CF';
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1)
-            if ndb == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p-miss, ndb1);
             K = zeros(nalpha, p-miss);
+            V = zeros(size(V));
+            nmiss = nmiss + p;
+            miss = p;
         else
-            error('singular matrix different from zero in scakfff')
+            error('innovations covariance singular in scakfff')
         end
     elseif miss == p
-        if ndb == 0
-            DD = [];
-            V = [];
-        else
-            DD = zeros(p, ndb1);
-            V = [];
-        end
+        DD = zeros(p, ndb1);
         K = zeros(nalpha, p);
+        V = zeros(p,size(A,2));
     else
         if ifg == 0
             GG2 = GG * GG';
@@ -368,21 +362,20 @@ for i = 1:n
         else
             V = [full(XX), YY] * [-g', 1]' - ZZ * A;
         end
-        F = ZZ * P * ZZ' + GG2;
+        F = ZZ * P * ZZ' + GG2;  
         [CF, cp] = chol(F);
         if cp == 0
             Frt = CF';
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1)
-            if ndb == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p, ndb1);
             K = zeros(nalpha, p);
+            V = zeros(size(V));
+            nmiss = nmiss + p;
+            miss = p;
         else
-            error('singular matrix different from zero in scakfff')
+            error('innovations covariance singular in scakfff')
         end
     end
     %
@@ -522,7 +515,7 @@ for i = 1:n
         LL = SQT(1:nd, 1:nd);
         if rank(LL) == ndelta
             Rm1 = LL \ eye(nd);
-            hd = Rm1 * SQT(1:nd, nd1);
+            hd = Rm1 * SQT(1:nd, nd1);  
             M = Rm1 * Rm1';
             AA = A(:, 1:nd);
             P = P + AA * M * AA';
@@ -534,9 +527,9 @@ for i = 1:n
             %
             if (nomiss > nd)
                 %         ets=SQT(nd1:end,end);        %standardized recursive residuals
-                ets = SQT(ndb+1:idxi, end); %standardized recursive residuals
+                ets = SQT(nd+1:idxi, end); %standardized recursive residuals
                 nets = size(ets, 1);
-                nc = size(Frt, 2);
+                nc = size(Frt, 2); 
                 %
                 % equation (4.142), p. 294, of Multivariate time series..., Gomez
                 % (2016), to obtain the covariance matrix of recursive residuals
@@ -562,7 +555,7 @@ for i = 1:n
                         idxpm1 = idxpm1 + nets;
                         fst = vech(set);
                         nfst = size(fst, 1);
-                        sec = repmat(i, size(fst));
+                        sec = repmat(i, size(fst));  
                         srecr(idxpm2+1:idxpm2+nfst, :) = [fst, sec];
                         idxpm2 = idxpm2 + nfst;
                     end
@@ -586,7 +579,6 @@ for i = 1:n
             clear SQT AS Ri
             ndelta = 0;
             ndb1 = nb1;
-            ndb = nbeta;
             iti = i;
             collps = 1;
         end

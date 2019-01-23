@@ -207,13 +207,12 @@ f = 1;
 fc = 0;
 nomiss = 0;
 nmiss = 0;
-hd = [];
-Md = [];
 nmissy = sum(sum(isnan(y)));
 e = zeros(np-nmissy, 1);
 ne = e;
 idx = 0;
 idxi = 0;
+nidx = 0;
 ifg = 0;
 ifh = 0;
 if mg <= p
@@ -227,7 +226,7 @@ if mh <= nalpha
     end
     ifh = 1;
 end
-%
+ 
 for i = 1:n
     %   i
     ip = (i - 1) * p + 1:i * p;
@@ -302,23 +301,19 @@ for i = 1:n
             [f, fc] = updatef(f, fc);
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1)
-            if ndb == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p-miss, ndb1);
             K = zeros(nalpha, p-miss);
+            V = zeros(size(V));
+            nmiss = nmiss + p;
+            miss = p;
         else
-            error('singular matrix different from zero in tskfsribf')
+            error('innovations covariance singular in scakff')
         end
     elseif miss == p
-        if ndb == 0
-            DD = [];
-        else
-            DD = zeros(p, ndb1);
-        end
+        DD = zeros(p, ndb1);
         K = zeros(nalpha, p);
+        V = zeros(p,size(A,2));
     else
         if ifg == 0
             GG2 = GG * GG';
@@ -332,7 +327,7 @@ for i = 1:n
             end
         end
         V = [zeros(p, ndelta), full(XX), YY] - ZZ * A;
-        F = ZZ * P * ZZ' + GG2;
+        F = ZZ * P * ZZ' + GG2;  
         [CF, cp] = chol(F);
         if cp == 0
             Frt = CF';
@@ -340,15 +335,14 @@ for i = 1:n
             [f, fc] = updatef(f, fc);
             DD = Frt \ V;
             K = (TT * P * ZZ' + HG) / F;
-        elseif cp == size(F, 1)
-            if ndb == 0
-                DD = [];
-            else
-                DD = zeros(p, ndb1);
-            end
+        elseif cp == 1 %F is zero
+            DD = zeros(p, ndb1);
             K = zeros(nalpha, p);
+            V = zeros(size(V));
+            nmiss = nmiss + p;
+            miss = p;
         else
-            error('singular matrix different from zero in tskfsribf')
+            error('innovations covariance singular in scakff')
         end
     end
     if miss == p
@@ -373,15 +367,17 @@ for i = 1:n
         SQT(1:idxi, :) = SQTi;
     elseif nbeta > 0
         if (miss ~= p)
-            [Q, SQTp] = qr([SQTd(1:ndb, 1:ndb); DD(:, 1:ndb)]);
-            idp = size(SQTp, 1);
-            SQTd(1:idp, :) = [SQTp, Q' * [SQTd(1:ndb, ndb1); DD(:, ndb1)]];
-            if (nomiss > nd + nbeta)
-                ets = SQTd(ndb+1:idp, ndb1);
+            lb = min(nidx, ndb); 
+            [Q, SQTp] = qr([SQTd(1:lb, 1:ndb); DD(:, 1:ndb)]);  
+            idp = size(SQTp, 1); 
+            nidx = idp;
+            SQTd(1:idp, :) = [SQTp Q' * [SQTd(1:lb, ndb1); DD(:, ndb1)]]; 
+            if idp > ndb
+                ets = SQTd(ndb+1:idp, ndb1); 
                 nets = size(ets, 1);
                 e(idx+1:idx+nets) = ets;
                 sec = repmat(i, size(ets));
-                ne(idx+1:idx+nets) = sec;
+                ne(idx+1:idx+nets) = sec; 
                 idx = idx + nets;
             end
         end
@@ -408,7 +404,7 @@ for i = 1:n
             A = A(:, nd+1:ndb1) - AA * hd;
             f = f * abs(prod(diag(LL)));
             [f, fc] = updatef(f, fc);
-            if (nomiss > ndb)
+            if (idxi > ndb)
                 ets = SQT(ndb+1:idxi, end);
                 nets = size(ets, 1);
                 e(idx+1:idx+nets) = ets;
@@ -420,10 +416,10 @@ for i = 1:n
             % pass from SQT to SQTd after collapsing
             %
             nidx = idxi - nd;
-            if nidx > 0 && nomiss >= ndb && nbeta > 0
-                SQTd(1:idxi-nd, :) = SQT(nd+1:idxi, nd+1:ndb1);
+            if nidx > 0 && nbeta > 0  
+                SQTd(1:nidx, :) = SQT(nd+1:idxi, nd+1:ndb1);
             end
-            ndelta = 0;
+            ndelta = 0; 
             ndb1 = nb1;
             ndb = nbeta;
             collps = 1;
