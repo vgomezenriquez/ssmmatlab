@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_USIPIstscl_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A cycle is estimated for the quarterly IPI series of USA using a structural model.'
+
+Keywords: time-series, ARIMA model, structural model, cycle
+
+Author: Víctor Gómez
+
+Submitted: Thu, January 24 2019 by Víctor Gómez
