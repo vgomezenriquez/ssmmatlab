@@ -1,0 +1,11 @@
+Name of QuantLet: SSM_USIPIcdstcl_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A smooth trend is estimated for the quarterly IPI series of USA.'
+
+Keywords: time-series, ARIMA model, canonical decomposition, fixed filters, smooth trend
+
+Author: Víctor Gómez
+
+Submitted: Thu, January 24 2019 by Víctor Gómez
