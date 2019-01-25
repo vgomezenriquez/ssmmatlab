@@ -1,0 +1,10 @@
+Name of QuantLet: SSM_agrimanssbs_d
+
+Published in: Linear Time Series With MATLAB and Octave
+
+Description: 'A multivariate state space model for the temporal disaggregation of the Spanish GDP is estimated.'
+
+Keywords: time-series, multivariate structural model, temporal disaggregation
+Author: Víctor Gómez
+
+Submitted: Fri, January 25 2019 by Víctor Gómez
