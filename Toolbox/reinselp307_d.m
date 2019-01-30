@@ -138,8 +138,6 @@ pause
 %(1995)
 Lambda = Lambdap(:, :, 1);
 [str, ferror] = suvarmapqPQe(Lambda, alpha, betap, th, Th, Sigma, seas);
-return
-
 
 disp(' ')
 disp('estimation of the VARMA(1,1) model in error correction form')
