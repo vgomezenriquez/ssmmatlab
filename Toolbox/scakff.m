@@ -454,7 +454,7 @@ for i = 1:n
     %
     % measurement update
     %
-    ia = (i - 1) * nalpha + 1:i * nalpha; 
+    ia = (i - 1) * nalpha + 1:i * nalpha;  
     if (collps == 1) && (nomiss > nd + nbeta)
         if (miss < p)
             deno = i * p - nmiss - ndbc;
@@ -468,14 +468,14 @@ for i = 1:n
                 DB = A(:, 1:ndb) + P * R(:, 1:ndb);
                 PT(ia, :) = (P - P * NN * P + DB * Md * DB') * st2;
             else
-                KKP(i, :) = A + P * R;
+                KKP(i, :) = (A + P * R)';
                 PT(ia, :) = (P - P * NN * P) * st2;
             end
         elseif (miss == p)
             if (nbeta > 0)
                 KKP(i, :) = (A * [-hd', 1]')';
             else
-                KKP(i, :) = A;
+                KKP(i, :) = A';
             end
             PT(ia, :) = P * st2;
         end
@@ -491,7 +491,7 @@ for i = 1:n
         P = TT * P * TT' + HH2;
     else
         A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + K * V;
-        P = TT * P * (TT - K * ZZ)' + HH2 - HG * K';
+        P = TT * P * (TT - K * ZZ)' + HH2 - HG * K'; 
     end
     %
     % single collapse if possible

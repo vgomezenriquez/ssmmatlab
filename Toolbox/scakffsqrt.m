@@ -499,14 +499,14 @@ for i = 1:n
                 DB = A(:, 1:ndb) + whKf * DD(:, 1:ndb);
                 PT(ia, :) = (LPf * LPf' + DB * Md * DB') * st2;
             else
-                KKP(i, :) = A + whKf * DD;
+                KKP(i, :) = (A + whKf * DD)';
                 PT(ia, :) = (LPf * LPf') * st2;
             end
         elseif (miss == p)
             if (nbeta > 0)
                 KKP(i, :) = (A * [-hd', 1]')';
             else
-                KKP(i, :) = A;
+                KKP(i, :) = A';
             end
             PT(ia, :) = P * st2;
         end
@@ -522,7 +522,7 @@ for i = 1:n
         LP = RR(1:nlp, 1:nlp)'; %P_{t+1}^{1/2}
     else
         A = [zeros(nalpha, ndelta), -full(WW), zeros(nalpha, 1)] + TT * A + whK * DD; %x_{t+1|t}
-        LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)'; %P_{t+1}^{1/2}
+        LP = RR(nzz+1:nzz+nlp, nzz+1:nzz+nlp)';  %P_{t+1}^{1/2}
     end
     
     %
