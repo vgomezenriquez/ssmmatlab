@@ -448,10 +448,14 @@ for i = 1:n
                     idxpnm2 = idxpnm2 + p;
                 end
             end
+            U = SQTd(1:nbeta, 1:nbeta);
+            invu = pinv(U);
+            hd = invu * SQTd(1:nbeta, nb1);
+            Md = invu * invu';
             if best == 0
                 if rank(SQTd(ndelta+1:ndb, ndelta+1:ndb)) == ndb - ndelta
                     best = 1;
-                    initf = i + 1;
+                    initf = i;
                 end
             end
         end
@@ -606,14 +610,6 @@ for i = 1:n
             ndb = nbeta;
             collps = 1;
         end
-    end
-end
-if nbeta > 0
-    if (miss ~= p)
-        U = SQTd(1:nbeta, 1:nbeta);
-        invu = pinv(U);
-        hd = invu * SQTd(1:nbeta, nb1);  
-        Md = invu * invu';
     end
 end
 
