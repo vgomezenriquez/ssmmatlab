@@ -2,7 +2,7 @@ function [e, E, rSigmat] = sqrt_ckms(y, Y, str, maxupdt, tol)
 %
 %
 %        This function applies to the series (y,Y) the square root CKMS
-%        recursions corresponding to the model
+%        recursions corresponding to the model in echelon form
 %
 %        y_t = Y_t*beta + H*x_t + K*a_t
 %        x_{t+1}= F*x_t + a_t,
@@ -113,7 +113,7 @@ for i = 1:n
     %update innovation
     V = [full(XX), YY] - mulHA(H, A, kro);
     e = [e; V(:, end)'];
-    E = [E; V(:, 1:end-1)'];
+    E = [E; V(:, 1:end-1)']; 
     %update state prediction
     A = mulFA(F, A, kro) + barKp * (urSigmat' \ V);
     rSigmat = [rSigmat; urSigmat'];
@@ -124,13 +124,13 @@ for i = 1:n
         %   J=eye(2*p); J(p+1:end,p+1:end)=-eye(p);
         %   M'*J*M, R'*J*R
         %update square root of innovations covariance matrix
-        nurSigmat = R(1:p, :);
+        nurSigmat = R(1:p, :);   
         if (i <= maxupdt) && (dif > tol)
             %     format long g
             %     dif= abs(abs(nurSigmat(1,1))-target)
             %     i,target,nurSigmat(1,1)
             %     format short
-            urSigmat = nurSigmat;
+            urSigmat = nurSigmat;  
             Mx = [barKp'; (mulFA(F, barL, kro))'];
             QtB = qtb(Q, Mx, p, p);
             %update barKp and barL matrices
