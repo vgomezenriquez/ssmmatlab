@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'The first three covariance matrices of a VARMA(2,1) are computed. Example 3.7 in Tsay (2014).'
 
-Keywords: time-series, VARMA model, covariance matrices
+Keywords: time-series, VARMA model, covariance matrices, polynomial matrices, cross-correlation matrices
 
 Author: Víctor Gómez
 
