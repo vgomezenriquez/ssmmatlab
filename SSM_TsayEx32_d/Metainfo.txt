@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'An MA(1) model is identified and estimated for the three series of Example 3.2 in Tsay (2014).'
 
-Keywords: time-series, VARMA model, identification, estimation
+Keywords: time-series, VARMA model, identification, estimation, cross-correlation matrices
 
 Author: Víctor Gómez
 
