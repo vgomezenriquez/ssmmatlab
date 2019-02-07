@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'The canonical decomposition of an ARIMA model is performed.'
 
-Keywords: time-series, ARIMA model, canonical decomposition
+Keywords: time-series, ARIMA model, canonical decomposition, pseudospectrum, unobserved components
 
 Author: Víctor Gómez
 
