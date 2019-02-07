@@ -1,10 +1,10 @@
-Name of QuantLet: SSM_candec_d
+Name of QuantLet: SSM_TRAMO_SEATSex2_d
 
 Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A Spanish series of trade balance is used to illustrate the canonical decomposition.'
 
-Keywords: time-series, ARIMA model, canonical decomposition
+Keywords: time-series, ARIMA model, canonical decomposition, unobserved components, automatic model identification
 
 Author: Víctor Gómez
 
