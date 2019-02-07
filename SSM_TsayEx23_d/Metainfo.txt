@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A VAR(2) model is estimated. This is Example 2.3 in Tsay (2014).'
 
-Keywords: time-series, VAR model, OLS estimation
+Keywords: time-series, VAR model, OLS estimation, t-values, OLS residuals
 
 Author: Víctor Gómez
 
