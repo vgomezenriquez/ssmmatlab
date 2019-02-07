@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A VAR model for the Mink and Muskrat data is identified and estimated. See Reinsel (1997)'
 
-Keywords: time-series, VAR model, identification, estimation
+Keywords: time-series, VAR model, identification, estimation, Kronecker indices
 
 Author: Víctor Gómez
 
