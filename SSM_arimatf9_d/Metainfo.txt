@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'Several ARIMA and transfer function models are handled in one single run of the program.'
 
-Keywords: time-series, ARIMA model, transfer function model, estimation
+Keywords: time-series, ARIMA model, transfer function model, estimation, automatic model identification
 
 Author: Víctor Gómez
 
