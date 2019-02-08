@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A multivariate state space model for the temporal disaggregation of the Spanish GDP is estimated.'
 
-Keywords: time-series, multivariate structural model, temporal disaggregation
+Keywords: time-series, multivariate structural model, temporal disaggregation, state space model, unobserved components
 Author: Víctor Gómez
 
 Submitted: Fri, January 25 2019 by Víctor Gómez
