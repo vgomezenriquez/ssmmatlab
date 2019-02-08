@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A VARMA(0,3)(0,1) is identified for the two series in Example 6.1 of Tsay (2014).'
 
-Keywords: time-series, multiplicative VARMA model, identification
+Keywords: time-series, multiplicative VARMA model, identification, seasonality, likelihood ratio tests
 
 Author: Víctor Gómez
 
