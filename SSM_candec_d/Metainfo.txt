@@ -2,7 +2,7 @@ Name of QuantLet: SSM_candec_d
 
 Published in: Linear Time Series With MATLAB and Octave
 
-Description: 'The canonical decomposition of an ARIMA model is performed.'
+Description: 'The canonical decomposition of an ARIMA model is performed based on the partial fraction decomposition of the                  pseudospectrum.'
 
 Keywords: time-series, ARIMA model, canonical decomposition, pseudospectrum, unobserved components
 
