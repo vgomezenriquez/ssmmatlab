@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'Firstly, a time series following a MA(1) model is simulated. Then, some cross correlation matrices are computed.'
 
-Keywords: time-series, VARMA model, simulation, cross correlation matrices
+Keywords: time-series, VARMA model, simulation, cross correlation matrices, polynomial matrices
 
 Author: Víctor Gómez
 
