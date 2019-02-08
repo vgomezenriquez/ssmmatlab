@@ -2,7 +2,7 @@ Name of QuantLet: SSM_TsayEx62kro_d
 
 Published in: Linear Time Series With MATLAB and Octave
 
-Description: 'The four series of Example 6.2 in Tsay (2014) are considered. A VARMAX model is identified and estimated'
+Description: 'The four series of Example 6.2 in Tsay (2014) are considered. A VARMAX model is identified and estimated.'
 
 Keywords: time-series, VARMAX model, echelon form, Kronecker indices, conditional method, exact method
 
