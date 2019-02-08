@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'Firstly, a time series following a VARMA model is simulated. Then, the model is estimated by the Hannan-Rissanen method.'
 
-Keywords: time-series, VARMA model, simulation, estimation
+Keywords: time-series, VARMA model, simulation, estimation, exact maximum likelihood method
 
 Author: Víctor Gómez
 
