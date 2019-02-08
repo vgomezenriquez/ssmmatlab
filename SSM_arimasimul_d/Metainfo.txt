@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'Firstly, a time series following an ARIMA model is simulated. Then, the model is identified and estimated.'
 
-Keywords: time-series, ARIMA model, simulation, estimation
+Keywords: time-series, ARIMA model, simulation, estimation, seasonality
 
 Author: Víctor Gómez
 
