@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A transfer function model is estimated. The series is tf2, documented in the software package SCA.'
 
-Keywords: time-series, transfer function model, exact maximum likelihood method
+Keywords: time-series, transfer function model, exact maximum likelihood method, Kronecker indices, VARMAX model
 
 Author: Víctor Gómez
 
