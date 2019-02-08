@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A series following an ARMA(2,1) is simulated and the theoretical and sample autocorrelations and partial autocorrelations are computed.'
 
-Keywords: time-series, ARIMA model, autocorrelations, partial autocorrelations
+Keywords: time-series, ARIMA model, autocorrelations, partial autocorrelations, simulation
 
 Author: Víctor Gómez
 
