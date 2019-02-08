@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'Firstly, a normally distributed white noise is simulated. Then, the Ljung-Box statistic is computed for several lags.'
 
-Keywords: time-series, white noise, simulation, Ljung-Box statistic
+Keywords: time-series, white noise, simulation, Ljung-Box statistic, simulation, p-values
 
 Author: Víctor Gómez
 
