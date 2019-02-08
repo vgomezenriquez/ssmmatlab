@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A cycle is estimated for the quarterly IPI series of USA using a structural model.'
 
-Keywords: time-series, ARIMA model, structural model, cycle
+Keywords: time-series, ARIMA model, structural model, cycle, unobserved components
 
 Author: Víctor Gómez
 
