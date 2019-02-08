@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'Firstly, a time series following structural model is simulated. Then, the model is estimated.'
 
-Keywords: time-series, structural model, simulation, estimation
+Keywords: time-series, structural model, simulation, estimation, unobserved components
 
 Author: Víctor Gómez
 
