@@ -9,10 +9,10 @@
 % 4) A band-pass filter is applied to the canonical trend. A smooth cycle
 %    and a trend are obtained whose sum is the canonical trend.
 %
-% Steps 3) and 4) are based on Gómez, V. (2001). ''The use of butterworth
+% Steps 3) and 4) are based on GÃ³mez, V. (2001). ''The use of butterworth
 % filters for trend and cycle estimation in economic time series''.
-% Journal of Business and Economic Statistics, 19, 365–373. The algorithms
-% for many of the procedures are described in Gómez (2016), ''Multivariate
+% Journal of Business and Economic Statistics, 19, 365â€“373. The algorithms
+% for many of the procedures are described in GÃ³mez (2016), ''Multivariate
 % Time Series With Linear State Space Structure''. Springer International
 % Publishing AG: Switzerland
 %
