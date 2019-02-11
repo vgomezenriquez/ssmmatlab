@@ -5,7 +5,7 @@ Published in: Linear Time Series With MATLAB and Octave
 Description: 'A multivariate structual model with common slopes for eight series of the housing
               market in the USA is estimated.'
 
-Keywords: time-series, multivariate structural model, common slopes
+Keywords: time-series, multivariate structural model, common slopes, state space model, unobserved components
 Author: Víctor Gómez
 
 Submitted: Fri, January 25 2019 by Víctor Gómez
