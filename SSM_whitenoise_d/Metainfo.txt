@@ -4,7 +4,7 @@ Published in: Linear Time Series With MATLAB and Octave
 
 Description: 'A white noise series with 100 observations normally distributed with zero mean and unit variance is simulated.'
 
-Keywords: time-series, white noise, normal distribution, variance
+Keywords: time-series, white noise, normal distribution, variance, simulation
 
 Author: Víctor Gómez
 
