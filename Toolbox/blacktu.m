@@ -1,14 +1,16 @@
-function [w, m] = parzen(n, m)
+function [w, m] = blacktu(n, m, a)
 %
 %        This function computes the weights for the
-%        Parzen window
+%        Blackman-Tukey window
 %
 %     INPUTS:
-%         n : lentgh of the series
+%         n : lentgh of the series; required input to compute window lag
+%             size if m is not input to blacktu
 %         m : window lag size
+%         a : parameter in the window function
 %
 %    OUTPUTS:
-%         w : weights of the Parzen window
+%         w : weights of the Blackman-Tukey window
 %         m : window lag size;
 %
 % Copyright (c) 21 July 2003 by Victor Gomez
@@ -24,12 +26,12 @@ function [w, m] = parzen(n, m)
 % removed and no money is charged. Positive or negative feedback would be appreciated.
 %
 if nargin == 1
-    m = floor(n/3-1);
+    m=floor(n^(.756));
+    a = .25;
+elseif nargin == 2
+    a = .25;
 end
 w = zeros(m, 1);
-for i = 1:floor(m/2)
-    w(i) = 1 - (6 * (i^2) / m^2) * (1 - (i / m));
-end
-for i = floor(m/2) + 1:m
-    w(i) = 2 * ((1 - (i / m))^3);
+for i = 1:m
+    w(i) = 1 - 2 * a + 2 * a * cos(pi*(i / m));
 end
