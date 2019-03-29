@@ -385,14 +385,10 @@ if lam < 0
         
         % Ff0 and Ff1 are the criteria. There should be a relative difference between the two
         % greater than 2 per cent ?. If not, no transformation is selected
-        %    crt=0.005;
-        %    if ((Ff0 < Ff1) & (abs((Ff1-Ff0)/Ff0) > crt)), lam=0; else, lam=1; end
-        dny = double(ny);
-        cFf0 = log(Ff0) + log(dny) / dny; %BIC
-        cFf1 = log(Ff1);
-        crt = 0.02;
-        if ((cFf0 < cFf1) && (abs((cFf1 - cFf0)/cFf0) > crt)), lam = 0;
-        else lam = 1;
+        if (Ff0 < .9875 * Ff1)
+            lam = 0;
+        else
+            lam = 1;
         end
         %    if lam == 0
         %     format long g
