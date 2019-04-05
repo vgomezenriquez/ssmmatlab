@@ -1,14 +1,19 @@
-function [f, frq] = periodg(x, win)
+function [f, frq] = periodg(x, win, width, wina)
 %        This function computes the (smoothed) periodogram
 %
 %     INPUTS:
 %------------
 %         x : series
-%       win : window used for smoothing the periodogram;
-%             = 0 : no smoothing is performed
-%             = 1 : Blackman-Tukey window
-%             = 2 : Parzen window
-%             = 3 : Tukey-Hanning window
+%         win : window function used for smoothing the peiodogram
+%               0, no window is applied (nonsmoothed periodogram).
+%               1, the Blackman-Tukey window with parameter wina
+%               2, the Parzen window (default)
+%               3, the Tukey-Hanning window (same as Blackman-Tukey with wina= 0.25)
+%               if win < 0, it is set to 2
+%       width : window width factor (1/3 by default)
+%               if width <= 0, it is set to 1/3
+%        wina : "a" parameter for Blackman-Tukey window (0.23 by default)
+%               if wina <= 0, it is set to 0.23
 %    OUTPUTS:
 %      f    : (smoothed) periodogram
 %      frq  : array containing the frequencies
@@ -25,6 +30,21 @@ function [f, frq] = periodg(x, win)
 % be referenced. This code may be redistributed if nothing has been added or
 % removed and no money is charged. Positive or negative feedback would be appreciated.
 %
+if nargin < 4
+    wina = 0.23;
+elseif wina <= 0
+    wina = 0.23;
+end
+if nargin < 3
+    width = 1./3.;
+elseif width <= 0 
+    width = 1./3.;
+end
+if nargin < 2
+    win = 2;
+elseif win < 0
+    win = 2;
+end
 n = length(x);
 cxx0 = croscov(x, x, 0);
 np = floor(n/2);
@@ -35,11 +55,11 @@ end
 f = zeros(1, np+1);
 if win >= 1
     if win == 1
-        [w, m] = blacktu(n);
+        [w, m] = blacktu(n, width, wina);
     elseif win == 2
-        [w, m] = parzen(n);
+        [w, m] = parzen(n, width);
     elseif win == 3
-        [w, m] = tukhan(n);
+        [w, m] = tukhan(n, width);
     end
     cxx = zeros(1, m);
     for i = 1:m

@@ -47,7 +47,8 @@ function oparm = armaid(y, parm, ols, a, maxpq, maxPQ)
 
 if ~isstruct(parm)
     error('armaid: requires a parameter structure');
-end;
+end
+C = .005;
 oparm = parm;
 s = parm.s;
 S = parm.S;
@@ -68,20 +69,19 @@ sparm.qs = 0;
 if s > 1
     p = maxpq;
     q = 0;
+    sparm.p = oparm.p;
+    sparm.q = oparm.q;
+    oparm.p = p;
+    oparm.q = q;
     for ps = 0:maxPQ
         for qs = 0:maxPQ
-            %    [bicm,oparm]=updbic(yd,beta,s,S,p,ps,q,qs,qS,ols,a,bicm,oparm);
-            [bic, nparm] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, oparm);
+            [bic, ~] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, oparm);
             if bic < bicm
                 sbic = bicm;
                 bicm = bic;
-                sparm.p = oparm.p;
                 sparm.ps = oparm.ps;
-                sparm.q = oparm.q;
                 sparm.qs = oparm.qs;
-                oparm.p = p;
                 oparm.ps = ps;
-                oparm.q = q;
                 oparm.qs = qs;
             end
         end
@@ -91,21 +91,29 @@ if s > 1
     bicm = 1.d10;
     for p = 0:maxpq
         for q = 0:maxpq
-            %    [bicm,oparm]=updbic(yd,beta,s,S,p,ps,q,qs,qS,ols,a,bicm,oparm);
-            [bic, nparm] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, oparm);
+            [bic, ~] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, oparm);
             if bic < bicm
                 sbic = bicm;
                 bicm = bic;
                 sparm.p = oparm.p;
-                sparm.ps = oparm.ps;
                 sparm.q = oparm.q;
-                sparm.qs = oparm.qs;
                 oparm.p = p;
-                oparm.ps = ps;
                 oparm.q = q;
-                oparm.qs = qs;
                 %     p,q,bic,pause
             end
+        end
+    end
+    p = oparm.p;
+    q = oparm.q;
+    sp = sparm.p;
+    sq = sparm.q;
+    rbic = sbic - bicm;
+    % p,ps,q,qs,sparm
+%     bicm,sbic,rbic
+    if rbic < C
+        if ((sp + sq < p + q) && (sp + sq > 0)) 
+            oparm.q = sq;
+            oparm.p = sp;
         end
     end
     p = oparm.p;
@@ -113,20 +121,28 @@ if s > 1
     bicm = 1.d10;
     for ps = 0:maxPQ
         for qs = 0:maxPQ
-            %    [bicm,oparm]=updbic(yd,beta,s,S,p,ps,q,qs,qS,ols,a,bicm,oparm);
-            [bic, nparm] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, oparm);
+            [bic, ~] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, oparm);
             if bic < bicm
                 sbic = bicm;
                 bicm = bic;
-                sparm.p = oparm.p;
                 sparm.ps = oparm.ps;
-                sparm.q = oparm.q;
                 sparm.qs = oparm.qs;
-                oparm.p = p;
                 oparm.ps = ps;
-                oparm.q = q;
                 oparm.qs = qs;
             end
+        end
+    end
+    ps = oparm.ps;
+    qs = oparm.qs;
+    sps = sparm.ps;
+    sqs = sparm.qs;
+    rbic = sbic - bicm;
+    % p,ps,q,qs,sparm
+%     bicm,sbic,rbic
+    if rbic < C
+        if  ((sps + sqs < ps + qs) && (sps + sqs > 0))
+            oparm.qs = sqs;
+            oparm.ps = sps;
         end
     end
 else
@@ -134,20 +150,28 @@ else
     qs = 0;
     for p = 0:maxpq
         for q = 0:maxpq
-            %    [bicm,oparm]=updbic(yd,beta,s,S,p,ps,q,qs,qS,ols,a,bicm,oparm);
-            [bic, nparm] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, oparm);
+            [bic, ~] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, oparm);
             if bic < bicm
                 sbic = bicm;
                 bicm = bic;
                 sparm.p = oparm.p;
-                sparm.ps = oparm.ps;
                 sparm.q = oparm.q;
-                sparm.qs = oparm.qs;
                 oparm.p = p;
-                oparm.ps = ps;
                 oparm.q = q;
-                oparm.qs = qs;
             end
+        end
+    end
+    p = oparm.p;
+    q = oparm.q;
+    sp = sparm.p;
+    sq = sparm.q;
+    rbic = sbic - bicm;
+    % p,ps,q,qs,sparm
+    % bicm,sbic,rbic
+    if rbic < C
+        if ((sp + sq < p + q) && (sp + sq > 0)) 
+            oparm.q = sq;
+            oparm.p = sp;
         end
     end
 end
@@ -155,27 +179,6 @@ p = oparm.p;
 ps = oparm.ps;
 q = oparm.q;
 qs = oparm.qs;
-sp = sparm.p;
-sps = sparm.ps;
-sq = sparm.q;
-sqs = sparm.qs;
-rbic = abs(1-sbic/bicm);
-% p,ps,q,qs,sparm
-% bicm,sbic,rbic
-if rbic < 0.0045
-    %  if (p == sp) & (q == sq) & (sqs == 1) & (sps == 0)
-    %   qs=sqs; ps=sps; oparm.qs=1; oparm.ps=0;
-    %  end
-    %  if (p == sp) & (q == sq) & ((sps + sqs < ps + qs) & (sps + sqs > 0))
-    %   qs=sqs; ps=sps; oparm.qs=sqs; oparm.ps=sps;
-    %  end
-    if ((sp + sq < p + q) & (sp + sq > 0)) | ((sps + sqs < ps + qs) & (sps + sqs > 0))
-        qs = sqs;
-        ps = sps;
-        oparm.qs = sqs;
-        oparm.ps = sps;
-    end
-end
 if p + q + ps + qs == 0 %added on 25-5-2006
     oparm.q = 1;
     q = 1;

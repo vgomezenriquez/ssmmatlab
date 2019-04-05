@@ -1,4 +1,4 @@
-function spr = spectralan(y, per, win, corlag, graph, vnames)
+function spr = spectralan(y, per, win, corlag, graph, vnames, width, wina)
 %
 % Spectral analysis
 %
@@ -17,18 +17,29 @@ function spr = spectralan(y, per, win, corlag, graph, vnames)
 %                the program assumes that the first column contains
 %                the reference series
 %          per : frequency of the data (number of seasons)
+%                if per < 0, it is set to 1 
 %          win : window function used for (cross-)periodogram smoothing
 %                0, no window is applied (nonsmoothed periodogram).
 %                1, the Blackman-Tukey window
 %                2, the Parzen window (default)
 %                3, the Tukey-Hanning window
+%                if win < 0, it is set to 2
 %       corlag : number of leads and lags at which the
-%                auto-/cross-correlations are computed; default: ly-1
+%                auto-/cross-correlations are computed; 
+%                if corlag <= 0 or >= length(y), it is set to length(y)-1
 %        graph : 0, do not produce graphs
-%                1, produce graphs (default)
+%                1, produce graphs in the original scale
+%                2, produce graphs in logarithms (default)
+%                if graph < 0, it is set to 2
 %       vnames : string cell array with names for the series; the program
 %                assumes that their order coincides with the order in y;
 %                default: refseries, series1, series2,...
+%                if vnames <= 0, the program generates the names according
+%                to the default
+%       width : window width factor (1/3 by default)
+%               if width <= 0, it is set to 1/3
+%        wina : "a" parameter for Blackman-Tukey window (0.23 by default)
+%               if wina <= 0, it is set to 0.23
 %       OUTPUT :
 %------------------
 %       spr    : structure containing the following fields
@@ -87,8 +98,20 @@ function spr = spectralan(y, per, win, corlag, graph, vnames)
 [ly, ny] = size(y);
 spr.y = y;
 spr.per = per;
-
-if nargin < 6
+if nargin < 8
+    wina = 0.23;
+elseif wina <= 0
+    wina = 0.23;
+end
+if nargin < 7
+    width = 1./3.;
+elseif width <= 0 
+    width = 1./3.;
+end
+if win < 0
+    win = 2;
+end
+if nargin < 6 || vnames <= 0
     dvnames = cell(1, ny);
     dvnames{1} = 'refseries';
     if ny > 1
@@ -100,6 +123,26 @@ else
     dvnames = vnames;
 end
 spr.names = dvnames;
+if nargin < 5
+    graph = 2;
+elseif graph < 0
+    graph = 2; 
+end
+if nargin < 4
+   corlag = ly - 1;
+elseif corlag < 0 || corlag >= ly
+   corlag = ly - 1;
+end
+if nargin < 3
+  win = 2;
+elseif win < 0 
+  win = 2;
+end
+if nargin < 2
+   per = 1;
+elseif per <0
+   per = 1;   
+end
 
 refc = y(:, 1); % reference series
 rfname = dvnames{1}; % name of the reference series
@@ -117,7 +160,7 @@ spr.f = zeros(nfrq, ny);
 spr.cr = zeros(2*corlag, ny);
 %---------------------------------------------
 % Periodogram of reference series
-[f, frq] = periodg(refc, win);
+[f, frq] = periodg(refc, win, width, wina);
 spr.f(:, 1) = f;
 % Autocorrelations of reference series
 cr = zeros(2*corlag, 1);
@@ -139,13 +182,21 @@ cc(:, 1) = cc(:, 1) * (fb1);
 cc(:, 2) = cc(:, 2) * (fb2);
 %------------------------------------------------------------------
 % Plot spectrum of reference series
-if graph == 1
+if graph >= 1
     figure
-    ll = (max(f) - min(f)) / 99;
-    dd = min(f):ll:max(f);
-    plot(frq, f, cc(:, 1), dd, cc(:, 2), dd)
+    if graph == 1
+        ll = (max(f) - min(f)) / 99;
+        dd = min(f):ll:max(f);
+        plot(frq, f, cc(:, 1), dd, cc(:, 2), dd)
+        legend(['spectrum ', rfname])
+    elseif graph == 2
+        lf = log(max(f,1e-10));
+        ll = (max(lf) - min(lf)) / 99;
+        dd = min(lf):ll:max(lf);
+        plot(frq, lf, cc(:, 1), dd, cc(:, 2), dd) 
+        legend(['spectrum (in logs) ', rfname])
+    end
     disp('press any key to continue')
-    legend(['spectrum ', rfname])
     pause
     close all
 end
@@ -182,7 +233,7 @@ if ny > 1
         mac = cr(corlag+imcor);
         %------------------------------------------------------
         % spectral analysis
-        [co, ph, ga, fx, f, frq] = crosspan(refc, comc, win);
+        [co, ph, ga, fx, f, frq] = crosspan(refc, comc, win, width, wina);
         phcb = ph(frqb); %phase delays in the cyclical band
         mph = mean(phcb); %mean phase delay in the cyclical band
         [mc, jc] = max(co(frqb)); %maximum coherence in the cyclical band
@@ -215,12 +266,20 @@ if ny > 1
         pause
         %------------------------------------------------------------------
         % Plot spectrum
-        if graph == 1
+        if graph >= 1
             figure
-            ll = (max(f) - min(f)) / 99;
-            dd = min(f):ll:max(f);
-            plot(frq, f, cc(:, 1), dd, cc(:, 2), dd)
-            legend(['spectrum ', rname])
+            if graph == 1
+                ll = (max(f) - min(f)) / 99;
+                dd = min(f):ll:max(f);
+                plot(frq, f, cc(:, 1), dd, cc(:, 2), dd)
+                legend(['spectrum ', rfname])
+            elseif graph == 2
+                lf = log(max(f,1e-10));
+                ll = (max(lf) - min(lf)) / 99;
+                dd = min(lf):ll:max(lf);
+                plot(frq, lf, cc(:, 1), dd, cc(:, 2), dd) 
+                legend(['spectrum (in logs) ', rfname])
+            end
             disp('press any key to continue')
             pause
             figure
