@@ -1,4 +1,4 @@
-function [w, m] = blacktu(n, m, a)
+function [w, m] = blacktu(n, width, a)
 %
 %        This function computes the weights for the
 %        Blackman-Tukey window
@@ -6,8 +6,9 @@ function [w, m] = blacktu(n, m, a)
 %     INPUTS:
 %         n : lentgh of the series; required input to compute window lag
 %             size if m is not input to blacktu
-%         m : window lag size
-%         a : parameter in the window function
+%     width : window width factor   
+%      wina : "a" parameter for Blackman-Tukey window (0.23 by default)
+%             if wina <= 0, it is set to 0.23
 %
 %    OUTPUTS:
 %         w : weights of the Blackman-Tukey window
@@ -25,12 +26,22 @@ function [w, m] = blacktu(n, m, a)
 % be referenced. This code may be redistributed if nothing has been added or
 % removed and no money is charged. Positive or negative feedback would be appreciated.
 %
-if nargin == 1
-    m=floor(n^(.756));
-    a = .25;
-elseif nargin == 2
-    a = .25;
+if nargin < 3
+    a = 0.23;
+elseif a <= 0 
+    a = 0.23;
 end
+if nargin < 2
+    m=floor(n^(.756));
+else
+    m = floor(width*n);
+end
+if m < 2
+    m=2;
+elseif m > n-1
+    m=n-1;
+end
+
 w = zeros(m, 1);
 for i = 1:m
     w(i) = 1 - 2 * a + 2 * a * cos(pi*(i / m));

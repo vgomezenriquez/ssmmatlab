@@ -395,21 +395,21 @@ if lam < 0
             end,
         end
         x0 = cinest(y, Y1, parm, est, ols, a, lpr, fid);
-        xv = x0(pvar);
-        xf = xi(pfix);
-        if ~isempty(xv)
-            xv = arimaopt(fmarqdt, fid, x0, xv, xf, y, Y1, parm, infm, lpr);
-            x0(pvar) = xv;
-        end
+%         xv = x0(pvar);
+%         xf = xi(pfix);
+%         if ~isempty(xv)
+%             xv = arimaopt(fmarqdt, fid, x0, xv, xf, y, Y1, parm, infm, lpr);
+%             x0(pvar) = xv;
+%         end
         [F, e, g1, M] = residual2x(x0, y, Y1, s, S, dr, ds, dS, p, ps, q, qs, qS);
         Ff1 = F' * F; %residual sum of squares
         x0 = cinest(y0, Y0, parm, est, ols, a, lpr, fid);
-        xv = x0(pvar);
-        xf = xi(pfix);
-        if ~isempty(xv)
-            xv = arimaopt(fmarqdt, fid, x0, xv, xf, y0, Y0, parm, infm, lpr);
-            x0(pvar) = xv;
-        end
+%         xv = x0(pvar);
+%         xf = xi(pfix);
+%         if ~isempty(xv)
+%             xv = arimaopt(fmarqdt, fid, x0, xv, xf, y0, Y0, parm, infm, lpr);
+%             x0(pvar) = xv;
+%         end
         [F, e, g0, M] = residual2x(x0, y0, Y0, s, S, dr, ds, dS, p, ps, q, qs, qS);
         Ff0 = F' * F; %residual sum of squares
         gmean = exp(sum(y0)/double(ny));
@@ -808,7 +808,7 @@ if (autmid == 1)
     
     
     % check regular underdifference
-    if (dr == 0) && (p == 1) && (q == 1) && (fixdif == 0)
+    if (dr == 0) && (p == 1) && (q >= 1) && (fixdif == 0)
         Rr = -x0(p);
         pps = p + ps;
         ppsq = pps + q;
@@ -2049,7 +2049,7 @@ if ninput > 0
     
     
     % check regular underdifference
-    if (dr == 0) && (p == 1) && (q == 1) && (fixdif == 0) && (autmid == 1)
+    if (dr == 0) && (p == 1) && (q >= 1) && (fixdif == 0) && (autmid == 1)
         Rr = -x(p);
         pps = p + ps;
         ppsq = pps + q;

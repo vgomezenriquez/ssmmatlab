@@ -1,4 +1,4 @@
-function [c, q] = cospqu(x, y, win)
+function [c, q] = cospqu(x, y, win, width, wina)
 %
 %        This function computes the (smoothed) cross-periodogram
 %        and the quadrature spectrum
@@ -11,6 +11,11 @@ function [c, q] = cospqu(x, y, win)
 %             = 1 : Blackman-Tukey window
 %             = 2 : Parzen window
 %             = 3 : Tukey-Hanning window
+%               if win < 0, it is set to 2
+%    width : window width factor (1/3 by default)
+%             if width <= 0, it is set to 1/3
+%     wina : "a" parameter for Blackman-Tukey window (0.23 by default)
+%             if wina <= 0, it is set to 0.23
 %
 %
 %    OUTPUTS:
@@ -30,6 +35,21 @@ function [c, q] = cospqu(x, y, win)
 % be referenced. This code may be redistributed if nothing has been added or
 % removed and no money is charged. Positive or negative feedback would be appreciated.
 %
+if nargin < 5
+    wina = 0.23;
+elseif wina <= 0
+    wina = 0.23;
+end
+if nargin < 4
+    width = 1./3.;
+elseif width <= 0 
+    width = 1./3.;
+end
+if nargin < 3
+    win = 2;
+elseif win < 0
+    win = 2;
+end
 n = length(x);
 cxy0 = croscov(x, y, 0);
 np = floor(n/2);
@@ -37,11 +57,11 @@ c = zeros(1, np+1);
 q = zeros(1, np+1);
 if win >= 1
     if win == 1
-        [w, m] = blacktu(n);
+        [w, m] = blacktu(n, width, wina);
     elseif win == 2
-        [w, m] = parzen(n);
+        [w, m] = parzen(n, width);
     elseif win == 3
-        [w, m] = tukhan(n);
+        [w, m] = tukhan(n, width);
     end
     cxy = zeros(1, m);
     cyx = zeros(1, m);

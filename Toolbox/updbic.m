@@ -46,7 +46,7 @@ function [bicm, oparm] = updbic(yd, beta, s, S, p, ps, q, qs, qS, ols, a, bicm, 
 % removed and no money is charged. Positive or negative feedback would be appreciated.
 %
 
-[nd, junk] = size(yd);
+[nd, ~] = size(yd);
 chk = 0;
 if p + ps + q + qs > 0
     x = inest(yd, beta, s, S, p, ps, q, qs, qS, ols, a);
@@ -56,16 +56,9 @@ else
 end
 if chk == 0
     bic = cbic(x, yd, nd, s, p, ps, q, qs);
-    %  rbic=abs(1-bic/bicm);
-    %  if (bic < bicm)
-    %   if  (((rbic > .001) & ((rbic > 0.003) | (ps+qs <= oparm.ps+oparm.qs))) |...
-    %         ((rbic <= .001) & (ps+qs <= oparm.ps+oparm.qs)))
-    %   if  ((rbic > 0.003) | ((rbic <= .003) & (ps+qs <= oparm.ps+oparm.qs)))
     bicm = bic;
     oparm.p = p;
     oparm.q = q;
     oparm.ps = ps;
     oparm.qs = qs;
-    %   end
-    %  end
 end

@@ -1,11 +1,12 @@
-function [w, m] = tukhan(n, m)
+function [w, m] = tukhan(n, width)
 %
 %        This function computes the weights for the
 %        Tukey-Hanning window
 %
 %     INPUTS:
 %         n : lentgh of the series
-%         m : window lag size
+%     width : window width factor (1/3 by default)
+%             if width <= 0, it is set to 1/3 
 %
 %    OUTPUTS:
 %         w : weights of the Tukey-Hanning window
@@ -25,6 +26,15 @@ function [w, m] = tukhan(n, m)
 %
 if nargin == 1
     m = floor(n/3-1);
+elseif width <= 0
+    m = floor(n/3-1);
+else
+    m = floor(n*width-1);
+end
+if m < 2
+    m=2;
+elseif m > n -1
+    m=n-1;
 end
 w = zeros(m, 1);
 for i = 1:m
