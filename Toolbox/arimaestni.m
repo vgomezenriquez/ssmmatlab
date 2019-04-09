@@ -778,14 +778,10 @@ if (autmid == 1)
     % end of check seasonal underdifference
     
     % check regular underdifference
-    if (dr == 0) && (p == 1) && (q >= 1) && (fixdif == 0)
-        Rr = -x0(p);
-        pps = p + ps;
-        ppsq = pps + q;
-        %   ns,nr
-        %   x,Rs,hm1s,hm1sr,abs(x(pps)-x(ppsq+qs))
+    if (dr == 0) && (p >= 1) && (fixdif == 0)
+        aa = roots([1, x0(1:p)]);
+        [Rr,ii] = max(real(aa));  
         alphamax = .499;
-        can = .13;
         if (s == 1)
             alpha2 = min(alphamax, .5-1/(ny^.55));
         else
@@ -798,11 +794,11 @@ if (autmid == 1)
             hmsr = max(ny^(-alphamax), ny^(-alpha2r));
             hm1sr = 1 - hmsr;
         end
-        if (((Rr > hm1s) && (abs(x0(p)-x0(ppsq))) > can)) || ...
-                (ds == 1) && ((Rr > hm1sr) && (abs(x0(p)-x0(ppsq)) > can))
+        if ((Rr > hm1s) && (abs(imag(aa(ii))) < hms)  || ((ds == 1)...
+                && (Rr > hm1sr)) && (abs(imag(aa(ii))) < hmsr) )
             parm.dr = 1;
-            parm.p = 0;
-            p = 0;
+            parm.p = p - 1;
+            p = p - 1;
             nr = p + ps + q + qs + qS; %number of arma parameters
             parm.pvar = 1:nr; %no fixed parameters when autmid = 1
             [s, S, dr, ds, dS, p, ps, q, qs, qS, ny, nreg, pfix, pvar] = imparm(parm);
@@ -1027,7 +1023,6 @@ else
 end
 %end of Arima estimation
 
-
 %check seasonal underdifference
 if (ds == 0) && (S == 0) && (autmid == 1) && (fixdif == 0) && (freq > 1)
     [F, e, g, M, A, P, matsis] = residual2x(x, y, Y, s, S, dr, ds, dS, p, ps, q, qs, qS);
@@ -1082,12 +1077,16 @@ if (ds == 0) && (S == 0) && (autmid == 1) && (fixdif == 0) && (freq > 1)
                 flagm = 0;
                 rnamesrg = [rnamesrg(1:nmiss, :); rnamesrg(nmiss+2:end, :)];
                 parm.flagm = 0;
+                nreg = nreg -1;
+                parm.nreg = nreg;
             end
             if pr == 1, prmod11x(fid, s, p, dr, q, ps, ds, qs, S, dS, qS, lam, flagm);
             end
             ct = constantx(ny, 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
-            if nreg > 0, YY = [ct, Y(1:ny, :)];
-            else YY = ct;
+            if nreg > 0 
+                YY = [ct, Y(1:ny, :)];
+            else
+                YY = ct;
             end
             est = 1;
             x0 = cinest(y, YY, parm, est, ols, a, 0, fid);
@@ -1101,15 +1100,12 @@ if (ds == 0) && (S == 0) && (autmid == 1) && (fixdif == 0) && (freq > 1)
     end
 end
 % end of check seasonal underdifference
+
 % check regular underdifference
-if (dr == 0) && (p == 1) && (q >= 1) && (fixdif == 0) && (autmid == 1)
-    Rr = -x(p);
-    pps = p + ps;
-    ppsq = pps + q;
-    %   ns,nr
-    %   x,Rs,hm1s,hm1sr,abs(x(pps)-x(ppsq+qs))
+if (dr == 0) && (p >= 1) && (fixdif == 0) && (autmid == 1)
+    aa = roots([1, x0(1:p)]);
+    [Rr,ii] = max(real(aa)); 
     alphamax = .499;
-    can = .13;
     if (s == 1)
         alpha2 = min(alphamax, .5-1/(ny^.55));
     else
@@ -1122,11 +1118,11 @@ if (dr == 0) && (p == 1) && (q >= 1) && (fixdif == 0) && (autmid == 1)
         hmsr = max(ny^(-alphamax), ny^(-alpha2r));
         hm1sr = 1 - hmsr;
     end
-    if (((Rr > hm1s) && (abs(x(p)-x(ppsq))) > can)) || ...
-            (ds == 1) && ((Rr > hm1sr) && (abs(x(p)-x(ppsq)) > can))
+    if ((Rr > hm1s) && (abs(imag(aa(ii))) < hms)  || ((ds == 1)...
+                && (Rr > hm1sr)) && (abs(imag(aa(ii))) < hmsr) )
         parm.dr = 1;
-        parm.p = 0;
-        p = 0;
+        parm.p = p - 1;
+        p = p - 1;
         nr = p + ps + q + qs + qS; %number of arma parameters
         parm.pvar = 1:nr; %no fixed parameters when autmid = 1
         [s, S, dr, ds, dS, p, ps, q, qs, qS, ny, nreg, pfix, pvar] = imparm(parm);
@@ -1136,12 +1132,16 @@ if (dr == 0) && (p == 1) && (q >= 1) && (fixdif == 0) && (autmid == 1)
             flagm = 0;
             rnamesrg = [rnamesrg(1:nmiss, :); rnamesrg(nmiss+2:end, :)];
             parm.flagm = 0;
+            nreg = nreg -1;
+            parm.nreg = nreg;
         end
         if pr == 1, prmod11x(fid, s, p, dr, q, ps, ds, qs, S, dS, qS, lam, flagm);
         end
         ct = constantx(size(y, 1), 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
-        if nreg > 0, YY = [ct, Y(1:ny, :)];
-        else YY = ct;
+        if nreg > 0
+            YY = [ct, Y(1:ny, :)];
+        else
+            YY = ct;
         end
         est = 1;
         x0 = cinest(y, YY, parm, est, ols, a, 0, fid); %regression without inputs
@@ -1160,7 +1160,7 @@ if (dr >= 1) && (q >= 1) && (fixdif == 0) && (autmid == 1)
     pps = p + ps;
     ppsq = pps + q;
     thr = [1, x(pps+1:ppsq)];
-    aa = max(abs(roots(thr)));
+    aa = max(real(roots(thr)));
     if aa > .98
         parm.dr = parm.dr - 1;
         if (p > 0) || (q > 1)
@@ -1172,8 +1172,10 @@ if (dr >= 1) && (q >= 1) && (fixdif == 0) && (autmid == 1)
         [s, S, dr, ds, dS, p, ps, q, qs, qS, ny, nreg, pfix, pvar] = imparm(parm);
         if flagm == 0
             ct = constantx(size(y, 1), 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
-            if nreg > 0, YY = [ct, Y(1:ny, :)];
-            else YY = ct;
+            if nreg > 0 
+                YY = [ct, Y(1:ny, :)];
+            else
+                YY = ct;
             end
         else
             YY = Y;
