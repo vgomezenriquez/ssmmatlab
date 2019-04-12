@@ -108,9 +108,6 @@ if nargin < 7
 elseif width <= 0 
     width = 1./3.;
 end
-if win < 0
-    win = 2;
-end
 if nargin < 6 || vnames <= 0
     dvnames = cell(1, ny);
     dvnames{1} = 'refseries';
