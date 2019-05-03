@@ -427,6 +427,9 @@ if isfield(ser, 'omet')
 else
     omet = 0;
 end
+if (out == 1 && (ps > 1 || qs > 1 || qS > 1))
+    omet = 1;
+end
 % C    = critical value for outlier detection
 %      if negative, it is computed
 %      depending on the sample size
