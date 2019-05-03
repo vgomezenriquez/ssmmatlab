@@ -38,6 +38,17 @@ function x = inest(yd, beta, s, S, p, ps, q, qs, qS, ols, a)
 %
 
 [n, m] = size(yd);
+if (ps > 1 || qs > 1 || qS > 1)
+    pps = p + ps;
+    if (pps > 0)
+        x(1:pps) = repmat(-.1, 1, pps);
+    end
+    qqsqS = q + qs + qS;
+    if (qqsqS > 0)
+        x(1 + pps:pps + qqsqS) = repmat(-.2, 1,qqsqS);
+    end
+    return
+end
 % correct series for regression effects
 if m > 1
     yc = yd(:, 1) - yd(:, 2:m) * beta;

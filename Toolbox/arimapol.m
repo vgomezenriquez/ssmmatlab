@@ -62,18 +62,22 @@ if p > 0
     phi = conv(phi, [fliplr(x(1:p)), 1]);
 end
 if ps > 0
-    phis = zeros(1, s+1);
-    phis(1) = x(p+ps);
-    phis(s+1) = 1;
+    phis = zeros(1, s * ps +1);
+    for i = 1:ps
+       phis(1 + s * (i - 1)) = x(p + ps + 1 - i);
+    end
+    phis(s * ps + 1) = 1;
 end
 phirs = conv(phi, phis);
 if q > 0
     th = conv(th, [fliplr(x(p+ps+1:p+ps+q)), 1]);
 end
 if qs > 0
-    ths = zeros(1, s+1);
-    ths(1) = x(p+ps+q+qs);
-    ths(s+1) = 1;
+    ths = zeros(1, s * ps +1);
+    for i = 1:qs
+       ths(1 + s * (i - 1)) = x(p + ps + q + qs + 1 - i);
+    end
+    ths(s * qs + 1) = 1;
 end
 if qS > 0
     thS = zeros(1, S+1);
