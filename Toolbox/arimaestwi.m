@@ -968,17 +968,6 @@ end
 %end of automatic model identification
 
 
-outa.model.mean = flagm;
-outa.model.p = p;
-outa.model.d = dr;
-outa.model.q = q;
-outa.model.ps = ps;
-outa.model.ds = ds;
-outa.model.qs = qs;
-if (nreg > 0)
-    outa.model.nreg = nreg;
-end
-
 %initial conditions
 est = 1;
 x0 = cinest(y, Y, parm, est, ols, a, pr, fid);
@@ -1057,6 +1046,18 @@ else
     x0 = x;
 end
 %end of Arima estimation
+
+outa.model.mean = flagm;
+outa.model.p = p;
+outa.model.d = dr;
+outa.model.q = q;
+outa.model.ps = ps;
+outa.model.ds = ds;
+outa.model.qs = qs;
+if (nreg > 0)
+    outa.model.nreg = nreg;
+end
+
 
 outa.model.result.pvar = pvar;
 outa.model.result.pfix = pfix;
