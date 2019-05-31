@@ -938,21 +938,6 @@ end
 
 %end of automatic model identification
 
-outa.model.mean = flagm;
-outa.model.p = p;
-outa.model.d = dr;
-outa.model.q = q;
-outa.model.ps = ps;
-outa.model.ds = ds;
-outa.model.qs = qs;
-if (S > 0)
-    outa.model.S = S;
-    outa.model.dS = dS;
-    outa.model.qS = qS;
-end
-if (nreg > 0)
-    outa.model.nreg = nreg;
-end
 
 %initial conditions
 est = 1;
@@ -1012,9 +997,9 @@ end
 
 %Arima estimation
 xv = x0(pvar);
-xf = xi(pfix);
+xf = xi(pfix); 
 if (nlestim == 1)
-    xv = arimaopt(fmarqdt, fid, x0, xv, xf, y, Y, parm, infm, pr);
+    xv = arimaopt(fmarqdt, fid, x0, xv, xf, y, Y, parm, infm, pr); 
     x(pvar) = xv;
     x(pfix) = xf;
 else
@@ -1290,6 +1275,22 @@ if (flagm == 1) && (fixdif == 0)
         conp = Ss / (ndrs - nparm); %estimated sigma square
         sconp = sqrt(conp);
     end
+end
+
+outa.model.mean = flagm;
+outa.model.p = p;
+outa.model.d = dr;
+outa.model.q = q;
+outa.model.ps = ps;
+outa.model.ds = ds;
+outa.model.qs = qs;
+if (S > 0)
+    outa.model.S = S;
+    outa.model.dS = dS;
+    outa.model.qS = qS;
+end
+if (nreg > 0)
+    outa.model.nreg = nreg;
 end
 
 
