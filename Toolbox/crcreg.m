@@ -2,7 +2,7 @@ function [nr1, ns1, nr, ns] = crcreg(y, s, maxr)
 %
 % This function applies the CRC criterion to the y series. It is based on
 % the paper "A Strongly Consistent Criterion to Decide Between I(1) and
-% I(0) Processes Based on Different Convergence Rates" by Víctor Gómez,
+% I(0) Processes Based on Different Convergence Rates" by V?ctor G?mez,
 % (2013), Communications in Statistics - Simulation and Computation, 42,
 % pp. 1848-1864.
 %
@@ -47,9 +47,9 @@ if (s == 0)
 else
     pord = max(6, floor(s/2)+1);
     alphamax = .499;
-    alpha1 = min(alphamax, .5-1/n^.95); %.65
-    alpha2 = min(alphamax, .5-1/(n^.90)); %.28  .51 .75
-    alpha2r = min(alphamax, .5-1/(n^.47)); %.33  .47
+    alpha1 = min(alphamax, .5-1/(n^.95)); %.55 .65 .95
+    alpha2 = min(alphamax, .5-1/(n^.90)); %.28  .51 .75 .90
+    alpha2r = min(alphamax, .5-1/(n^.38)); %.33  .38 .47
 end
 %the case s=2 and maxr=2 would require special treatment in the first stage
 maxs = 0;

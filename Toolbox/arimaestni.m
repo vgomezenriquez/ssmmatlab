@@ -778,15 +778,15 @@ if (autmid == 1)
     % end of check seasonal underdifference
     
     % check regular underdifference
-    if (dr == 0) && (p >= 1) && (fixdif == 0)
+    if (dr <= 1) && (p >= 1) && (fixdif == 0)
         aa = roots([1, x0(1:p)]);
         [Rr,ii] = max(real(aa));  
         alphamax = .499;
         if (s == 1)
             alpha2 = min(alphamax, .5-1/(ny^.55));
         else
-            alpha2 = min(alphamax, .5-1/(ny^.90)); %.28  .51 .75
-            alpha2r = min(alphamax, .5-1/(ny^.47)); %.33  .47
+            alpha2 = min(alphamax, .5-1/(ny^.90)); %.28  .51 .75 .90
+            alpha2r = min(alphamax, .5-1/(ny^.38)); %.33  .38 .47
         end
         hms = max(ny^(-alphamax), ny^(-alpha2));
         hm1s = 1 - hms;
@@ -796,20 +796,27 @@ if (autmid == 1)
         end
         if ((Rr > hm1s) && (abs(imag(aa(ii))) < hms)  || ((ds == 1)...
                 && (Rr > hm1sr)) && (abs(imag(aa(ii))) < hmsr) )
-            parm.dr = 1;
+            parm.dr = dr + 1;  
             parm.p = p - 1;
             p = p - 1;
             nr = p + ps + q + qs + qS; %number of arma parameters
+            if (nr == 0)
+                q = 1;
+                parm.q = q;
+                nr = 1;
+            end
             parm.pvar = 1:nr; %no fixed parameters when autmid = 1
             [s, S, dr, ds, dS, p, ps, q, qs, qS, ny, nreg, pfix, pvar] = imparm(parm);
             clear aenames
             [nlag, aenames] = lagaena(parm); %names for Arima estimation printing
             %   ct=constant(ny,1,dr,ds,0,0,s);   %generate a mean for the differenced series
             ct = constantx(ny, 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
-            if nreg > 0, YY = [ct, Y(1:ny, :)];
-            else YY = ct;
+            if nreg > 0 
+                YY = [ct, Y(1:ny, :)];
+            else
+                YY = ct;
             end
-            est = 1;
+            est = 1; 
             x0 = cinest(y, YY, parm, est, ols, a, 0, fid);
             xv = x0;
             xv = arimaopt(fmarqdt, fid, x0, xv, xf, y, YY, parm, infm, 0);
@@ -1140,94 +1147,94 @@ if (dr == 0) && (p >= 1) && (fixdif == 0) && (autmid == 1)
 end
 % end of check regular underdifference
 
-% check regular overdifference
-if (dr >= 1) && (q >= 1) && (fixdif == 0) && (autmid == 1)
-    pps = p + ps;
-    ppsq = pps + q;
-    thr = [1, x(pps+1:ppsq)];
-    aa = max(real(roots(thr)));
-    if aa > .98
-        parm.dr = parm.dr - 1;
-        if (p > 0) || (q > 1)
-            parm.q = parm.q - 1;
-            q = q - 1;
-        end
-        nr = p + ps + q + qs + qS; %number of arma parameters
-        parm.pvar = 1:nr; %no fixed parameters when autmid = 1
-        [s, S, dr, ds, dS, p, ps, q, qs, qS, ny, nreg, pfix, pvar] = imparm(parm);
-        if flagm == 0
-            ct = constantx(size(y, 1), 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
-            if nreg > 0 
-                YY = [ct, Y(1:ny, :)];
-            else
-                YY = ct;
-            end
-        else
-            YY = Y;
-        end
-        est = 1;
-        x0 = cinest(y, YY, parm, est, ols, a, 0, fid); %regression without inputs
-        parm.pvar = pvar;
-        clear aenames
-        [nlag, aenames] = lagaena(parm); %names for Arima estimation printing
-        xv = x0;
-        xv = arimaopt(fmarqdt, fid, x0, xv, xf, y, Y, parm, infm, pr);
-        x = xv;
-        if (flagm == 0)
-            [F, e, beta, M] = residual2x(x, y, YY, s, S, dr, ds, dS, p, ps, q, qs, qS);
-            nyd = ny - nmiss - dr - ds * s - dS * S;
-            myd = length(beta);
-            sg = e' * e / (nyd - myd);
-            se = sqrt(diag(M)*sg);
-            t = beta ./ se;
-            %test whether mean is significant
-            if (abs(t(1)) > 2.0) && (flagm == 0)
-                if nY > 0
-                    ct = constantx(nY, 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
-                else
-                    ct = constantx(ny+npr, 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
-                end
-                mY = size(Y, 2);
-                if mY > 0
-                    if nmiss > 0
-                        Y = [Y(:, 1:nmiss), ct, Y(:, nmiss+1:mY)];
-                        if isempty(rnamesrg(1:nmiss, :))
-                            rnamesrg = 'mean';
-                        else
-                            rnamesrg = char(rnamesrg(1:nmiss, :), 'mean');
-                        end
-                        if nmiss < mY
-                            rnamesrg = char(rnamesrg, rnamesrg(nmiss+1:end, :));
-                        end
-                    else
-                        Y = [ct, Y];
-                        if isempty(rnamesrg)
-                            rnamesrg = 'mean';
-                        else
-                            rnamesrg = char('mean', rnamesrg);
-                        end
-                    end
-                else
-                    Y = ct;
-                    if isempty(rnamesrg)
-                        rnamesrg = 'mean';
-                    else
-                        rnamesrg = char('mean', rnamesrg);
-                    end
-                end
-                [nY, mY] = size(Y);
-                rnamesr = 1;
-                nreg = nreg + 1;
-                parm.nreg = nreg;
-                flagm = 1;
-                parm.flagm = flagm;
-            end
-        end
-        if pr == 1, prmod11x(fid, s, p, dr, q, ps, ds, qs, S, dS, qS, lam, flagm);
-        end
-    end
-end
-% end of check regular overdifference
+% % check regular overdifference
+% if (dr >= 1) && (q >= 1) && (fixdif == 0) && (autmid == 1)
+%     pps = p + ps;
+%     ppsq = pps + q;
+%     thr = [1, x(pps+1:ppsq)];
+%     aa = max(real(roots(thr)));
+%     if aa > .98
+%         parm.dr = parm.dr - 1;
+%         if (p > 0) || (q > 1)
+%             parm.q = parm.q - 1;
+%             q = q - 1;
+%         end
+%         nr = p + ps + q + qs + qS; %number of arma parameters
+%         parm.pvar = 1:nr; %no fixed parameters when autmid = 1
+%         [s, S, dr, ds, dS, p, ps, q, qs, qS, ny, nreg, pfix, pvar] = imparm(parm);
+%         if flagm == 0
+%             ct = constantx(size(y, 1), 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
+%             if nreg > 0 
+%                 YY = [ct, Y(1:ny, :)];
+%             else
+%                 YY = ct;
+%             end
+%         else
+%             YY = Y;
+%         end
+%         est = 1;
+%         x0 = cinest(y, YY, parm, est, ols, a, 0, fid); %regression without inputs
+%         parm.pvar = pvar;
+%         clear aenames
+%         [nlag, aenames] = lagaena(parm); %names for Arima estimation printing
+%         xv = x0;
+%         xv = arimaopt(fmarqdt, fid, x0, xv, xf, y, Y, parm, infm, pr);
+%         x = xv;
+%         if (flagm == 0)
+%             [F, e, beta, M] = residual2x(x, y, YY, s, S, dr, ds, dS, p, ps, q, qs, qS);
+%             nyd = ny - nmiss - dr - ds * s - dS * S;
+%             myd = length(beta);
+%             sg = e' * e / (nyd - myd);
+%             se = sqrt(diag(M)*sg);
+%             t = beta ./ se;
+%             %test whether mean is significant
+%             if (abs(t(1)) > 2.0) && (flagm == 0)
+%                 if nY > 0
+%                     ct = constantx(nY, 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
+%                 else
+%                     ct = constantx(ny+npr, 1, dr, ds, dS, 0, 0, s, S); %generate a mean for the series
+%                 end
+%                 mY = size(Y, 2);
+%                 if mY > 0
+%                     if nmiss > 0
+%                         Y = [Y(:, 1:nmiss), ct, Y(:, nmiss+1:mY)];
+%                         if isempty(rnamesrg(1:nmiss, :))
+%                             rnamesrg = 'mean';
+%                         else
+%                             rnamesrg = char(rnamesrg(1:nmiss, :), 'mean');
+%                         end
+%                         if nmiss < mY
+%                             rnamesrg = char(rnamesrg, rnamesrg(nmiss+1:end, :));
+%                         end
+%                     else
+%                         Y = [ct, Y];
+%                         if isempty(rnamesrg)
+%                             rnamesrg = 'mean';
+%                         else
+%                             rnamesrg = char('mean', rnamesrg);
+%                         end
+%                     end
+%                 else
+%                     Y = ct;
+%                     if isempty(rnamesrg)
+%                         rnamesrg = 'mean';
+%                     else
+%                         rnamesrg = char('mean', rnamesrg);
+%                     end
+%                 end
+%                 [nY, mY] = size(Y);
+%                 rnamesr = 1;
+%                 nreg = nreg + 1;
+%                 parm.nreg = nreg;
+%                 flagm = 1;
+%                 parm.flagm = flagm;
+%             end
+%         end
+%         if pr == 1, prmod11x(fid, s, p, dr, q, ps, ds, qs, S, dS, qS, lam, flagm);
+%         end
+%     end
+% end
+% % end of check regular overdifference
 
 %
 % get residuals

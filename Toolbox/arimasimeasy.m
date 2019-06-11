@@ -103,7 +103,7 @@ qs = 0;
 N = 100;
 Ns = 1;
 discard = 50;
-gft = 1;
+gft = 0;
 drg = 0;
 dsg = 0;
 mean = 0.0;
@@ -220,7 +220,7 @@ for i = 1:ldef
             if (~isscalar(val{i}) || (val{i} ~= 0 && val{i} ~= 1 && val{i} ~= 2 && val{i} ~= 3))
                 error('Value of option gft must be zero, one, two or three');
             else
-                gft = val{i};
+                gft = val{i}; 
             end
         elseif strcmpi('drg', opt{i})
             if (~isscalar(val{i}) || (val{i} <= 0))
