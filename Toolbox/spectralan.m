@@ -34,8 +34,8 @@ function spr = spectralan(y, per, win, corlag, graph, vnames, width, wina)
 %       vnames : string cell array with names for the series; the program
 %                assumes that their order coincides with the order in y;
 %                default: refseries, series1, series2,...
-%                if vnames <= 0, the program generates the names according
-%                to the default
+%                if vnames is empty, the program generates the names 
+%                according to the default
 %       width : window width factor (1/3 by default)
 %               if width <= 0, it is set to 1/3
 %        wina : "a" parameter for Blackman-Tukey window (0.23 by default)
@@ -108,7 +108,7 @@ if nargin < 7
 elseif width <= 0 
     width = 1./3.;
 end
-if nargin < 6 || vnames <= 0
+if nargin < 6 || isempty(vnames)
     dvnames = cell(1, ny);
     dvnames{1} = 'refseries';
     if ny > 1
