@@ -84,7 +84,7 @@ end
 mvx = 1;
 chb = 0;
 prt = 2;
-tolf = 1e-4;
+tolf = str.tolf;
 nu0 = .01;
 jac = 1;
 

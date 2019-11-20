@@ -38,6 +38,7 @@ end
 if ferror > 0
     return
 end
+strm.tolf = 1e-4; %tolf:  a parameter used for stopping
 
 %estimate model
 %
