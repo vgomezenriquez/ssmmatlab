@@ -186,17 +186,6 @@ else % all parameters are fixed
     Cv = [];
 end
 
-
-% %standard errors via second derivatives of log likelihood
-% xt=xvf'; ne=length(ff);
-% H=fdhess('logF',xt,f,y,s,pfix,pvar,xf,chb,str);
-% SS=inv(H/2)/(ne-nr); se=sqrt(abs(diag(SS)))';
-% %t-values
-% % disp('t-values:')
-% xx=x0; tv=zeros(size(xx));
-% tv(pfix)=NaN;
-% tv(pvar)=xvf./se;
-
 % this line changed 12-2011
 if ~isempty(X) || ~isempty(W)
     chb = 1;
@@ -210,7 +199,7 @@ Ss = e' * e;
 Ff = F' * F;
 ne = length(e); %residual sum of squares
 % disp('concentrated parameter:')
-sigma2c = Ss / (ne - nr); %estimated sigma square
+sigma2c = Ss / ne; %estimated sigma square; %line changed on Nov 20, 2019
 % compute prediction error variance (finite sample)
 % disp('prediction error variance (finite sample)')
 Pevf = Pevf * sigma2c;

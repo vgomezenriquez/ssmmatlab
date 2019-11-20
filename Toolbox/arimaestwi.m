@@ -753,8 +753,7 @@ if (autmid == 1)
         Ss = e' * e;
         Ff = F' * F;
         ndrs = ny - nmiss + npmiss - dr - ds * s - dS * S; %residual sum of squares
-        nparm = length(xv) + nreg;
-        conp = Ss / (ndrs - nparm); %estimated sigma square
+        conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
         sconp = sqrt(conp);
         ne = length(e);
         nv = length(xv);
@@ -1109,8 +1108,7 @@ end
 Ss = e' * e;
 Ff = F' * F;
 ndrs = ny - nmiss + npmiss - dr - ds * s - dS * S; %residual sum of squares
-nparm = length(xv) + nreg;
-conp = Ss / (ndrs - nparm); %estimated sigma square
+conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
 sconp = sqrt(conp);
 gm = g;
 
@@ -1290,8 +1288,7 @@ if mY > 0
                     Ss = e' * e;
                     Ff = F' * F;
                     ndrs = ny - nmiss + npmiss - dr - ds * s - dS * S; %residual sum of squares
-                    nparm = length(xv) + nreg;
-                    conp = Ss / (ndrs - nparm); %estimated sigma square
+                    conp = Ss / (ndrs - nreg); %estimated sigma squares; line changed on Nov 20, 2019
                     sconp = sqrt(conp);
                     nv = length(xv);
                     infr = rescomp(e, lag, nv, Ss, conp, sconp, Ff, ndrs, nreg);
@@ -1399,8 +1396,7 @@ if mY > 0
                         Ss = e' * e;
                         Ff = F' * F;
                         ndrs = ny - nmiss + npmiss - dr - ds * s - dS * S; %residual sum of squares
-                        nparm = length(xv) + nreg;
-                        conp = Ss / (ndrs - nparm); %estimated sigma square
+                        conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
                         sconp = sqrt(conp);
                         nv = length(xv);
                         infr = rescomp(e, lag, nv, Ss, conp, sconp, Ff, ndrs, nreg);
@@ -1978,8 +1974,7 @@ if ninput > 0
         Ss = e' * e;
         Ff = F' * F;
         ndrs = ny - nmiss - dr - ds * s - dS * S; %residual sum of squares
-        nparm = length(xv) + nreg;
-        conp = Ss / (ndrs - nparm); %estimated sigma square
+        conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
         sconp = sqrt(conp);
         ne = length(e);
         nv = length(xv);
@@ -2075,7 +2070,7 @@ if ninput > 0
         end
         if ((Rr > hm1s) && (abs(imag(aa(ii))) < hms)  || ((ds == 1)...
                 && (Rr > hm1sr)) && (abs(imag(aa(ii))) < hmsr) )
-            p0 = p;
+            p0 = p; 
             nr0 = p + ps + q + qs + qS;
             parm.dr = 1;
             parm.p = 0;
@@ -2224,11 +2219,10 @@ if ninput > 0
     %   [F,e,gg,M,A,P,matsis]=residual2(x,ycii,Y,s,dr,ds,p,ps,q,qs,1);
     [F, e, gg, M, A, P, matsis] = residual2x(x, ycii, Y, s, S, dr, ds, dS, p, ps, q, qs, qS);
     
-    nparm = length(xv) + nreg;
     Ss = e' * e;
     Ff = F' * F;
     ndrs = ny - nmiss - dr - ds * s - dS * S; %residual sum of squares
-    conp = Ss / (ndrs - nparm); %estimated sigma square
+    conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
     sconp = sqrt(conp);
     
     %check whether mean is significant
@@ -2258,11 +2252,10 @@ if ninput > 0
             ycii = deltafil(ycii, 0, dS, 0, 0, S);
             %   [F,e,gg,M,A,P,matsis]=residual2(x,ycii,Y,s,dr,ds,p,ps,q,qs,1);
             [F, e, gg, M, A, P, matsis] = residual2x(x, ycii, Y, s, S, dr, ds, dS, p, ps, q, qs, qS);
-            nparm = length(xv) + nreg;
             Ss = e' * e;
             Ff = F' * F;
             ndrs = ny - nmiss - dr - ds * s - dS * S; %residual sum of squares
-            conp = Ss / (ndrs - nparm); %estimated sigma square
+            conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
             sconp = sqrt(conp);
         end
     end

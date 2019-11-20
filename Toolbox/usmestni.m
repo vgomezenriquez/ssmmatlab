@@ -221,12 +221,11 @@ else
     pvar = str.pvar;
     pfix = str.pfix;
     [F, e, h, M, Pevf, A, P, olsres] = smfun(xvf, y, s, pfix, pvar, xf, chb, str);
-    nr = length(pvar);
     Ss = e' * e;
     Ff = F' * F;
     ne = length(e); %residual sum of squares
     % disp('concentrated parameter:')
-    sigma2c = Ss / (ne - nr); %estimated sigma square
+    sigma2c = Ss / ne; %estimated sigma square; %line changed on Nov 20, 2019
     % compute prediction error variance (finite sample)
     % disp('prediction error variance (finite sample)')
     Pevf = Pevf * sigma2c;

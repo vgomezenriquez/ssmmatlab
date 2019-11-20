@@ -724,8 +724,7 @@ if (autmid == 1)
         Ss = e' * e;
         Ff = F' * F;
         ndrs = ny - nmiss - dr - ds * s - dS * S; %residual sum of squares
-        nparm = length(xv) + nreg;
-        conp = Ss / (ndrs - nparm); %estimated sigma square
+        conp = Ss / (ndrs - nreg); %estimated sigma square;line changed on Nov 20, 2019
         sconp = sqrt(conp);
         ne = length(e);
         nv = length(xv);
@@ -1021,8 +1020,7 @@ if (ds == 0) && (S == 0) && (autmid == 1) && (fixdif == 0) && (freq > 1)
     Ss = e' * e;
     Ff = F' * F;
     ndrs = ny - nmiss - dr - ds * s - dS * S; %residual sum of squares
-    nparm = length(xv) + nreg;
-    conp = Ss / (ndrs - nparm); %estimated sigma square
+    conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
     sconp = sqrt(conp);
     ne = length(e);
     nv = length(xv);
@@ -1244,8 +1242,7 @@ end
 Ss = e' * e;
 Ff = F' * F;
 ndrs = ny - nmiss - dr - ds * s - dS * S; %residual sum of squares
-nparm = length(xv) + nreg;
-conp = Ss / (ndrs - nparm); %estimated sigma square
+conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
 sconp = sqrt(conp);
 
 %check whether mean is significant
@@ -1275,11 +1272,10 @@ if (flagm == 1) && (fixdif == 0)
         end
         %   [F,e,gg,M,A,P,matsis]=residual2(x,ycii,Y,s,dr,ds,p,ps,q,qs,1);
         [F, e, g, M, A, P, matsis] = residual2x(x, y, Y, s, S, dr, ds, dS, p, ps, q, qs, qS);
-        nparm = length(xv) + nreg;
         Ss = e' * e;
         Ff = F' * F;
         ndrs = ny - nmiss - dr - ds * s - dS * S; %residual sum of squares
-        conp = Ss / (ndrs - nparm); %estimated sigma square
+        conp = Ss / (ndrs - nreg); %estimated sigma square; line changed on Nov 20, 2019
         sconp = sqrt(conp);
     end
 end
@@ -1479,17 +1475,12 @@ if (nlestim == 1)
         %     H=fdhess('logF',xt,'fstarima1',y,Y,parm,infm,xf);
         %     SS=pinv(H/2)/(ny-dr-ds*s-nr-nreg);
         H = fdhess('logF', xt, f, y, Y, parm, infm, xf);
-        SS = pinv(H/2) / (ny - dr - ds * s - dS * S - nparm - ninput - nreg);
+        SS = pinv(H/2) / (ny - dr - ds * s - dS * S - ninput - nreg);
         se = sqrt(abs(diag(SS)))';
     else
         %standard errors via the jacobian
         smvx = infm.mvx;
         infm.mvx = 0;
-        %       [f,junk] = fstarima1(x,y,Y,parm,infm,xf);
-        %       [J,junk] = fdjac2(infm,x,f,y,Y,parm,infm,xf);
-        %       infm.mvx=smvx;
-        %       RR=qr(J);
-        %       R=RR(1:nparm,1:nparm); Ri=pinv(R);
         xp = x(pvar);
         f = fasttf(xp, y, Y, parm, infm, xf);
         [J, junk] = fdjac2(infm, xp, f, y, Y, parm, infm, xf);
