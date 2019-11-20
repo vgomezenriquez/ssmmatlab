@@ -188,6 +188,8 @@ end
 if ferror > 0
     return
 end
+str.tolf = tolf;
+
 if ~isempty(W)
     if mpr > 0
         nalpha = size(str.T, 1);

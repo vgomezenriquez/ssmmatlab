@@ -130,6 +130,8 @@ else
     nlestim = 1;
 end
 
+tolf = 1e-4; %tolf:  a parameter used for stopping
+
 if isfield(ser, 'olsres') %olsres :  =1 use OLS residuals
     olsres = ser.olsres; %          =0 do not use OLS residuals
 else
