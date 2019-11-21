@@ -1580,7 +1580,14 @@ if pr == 1
     in.fmt = char('%12.4f', '%12.4f', '%12.4f', '%2.0f');
     in.fid = fid;
     mprint(z, in);
-    fprintf(fid, '\nResidual standard error:%11.4f\n\n', sconp);
+    %the following lines added on 21 Nov 2019
+    if (nreg > 0)
+         fprintf(fid, '\nResidual standard error (OLS):%11.4f\n', sconp);
+         sconpml = sqrt(Ss / ndrs); 
+         fprintf(fid, '\nResidual standard error (max. likelihood):%11.4f\n\n', sconpml);
+    else
+         fprintf(fid, '\nResidual standard error:%11.4f\n\n', sconp);
+    end
     %print roots of ar and ma polynomials
     aenames = lagaenar(parm);
     z = rootsarma(x, parm);
@@ -2454,7 +2461,14 @@ if ninput > 0
         in.fmt = char('%12.4f', '%12.4f', '%12.4f', '%2.0f');
         in.fid = fid;
         mprint(z, in);
-        fprintf(fid, '\nResidual standard error:%11.4f\n\n', sconp);
+        %the following lines added on 21 Nov 2019
+        if (nreg > 0)
+             fprintf(fid, '\nResidual standard error (OLS):%11.4f\n', sconp);
+             sconpml = sqrt(Ss / ndrs); 
+             fprintf(fid, '\nResidual standard error (max. likelihood):%11.4f\n\n', sconpml);
+        else
+             fprintf(fid, '\nResidual standard error:%11.4f\n\n', sconp);
+        end
         %print roots of ar and ma polynomials
         aenames = lagaenar(parm);
         z = rootsarma(x, parm);
