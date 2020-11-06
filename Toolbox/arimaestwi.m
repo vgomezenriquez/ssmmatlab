@@ -2237,12 +2237,14 @@ if ninput > 0
         seb = sqrt(diag(M)*conp);
         tb = gg ./ seb; %standard errors and t-values
         if (abs(tb(nmiss+1)) < 2.0)
+            mY = size(Y,2);
+            mYY = size(rnamesrg, 1);
             if flagm == 1
-                Y = [Y(:, 1:nmiss), Y(:, nmiss+2:end)];
+                Y = [Y(:, 1:nmiss), Y(:, nmiss+2:nY)];
                 [~, mY] = size(Y);
                 nregm = nregm - 1;
                 flagm = 0;
-                rnamesrg = [rnamesrg(1:nmiss, :); rnamesrg(nmiss+2:end, :)];
+                rnamesrg = [rnamesrg(1:nmiss, :); rnamesrg(nmiss+2:mYY, :)];
                 parm.flagm = 0;
             end
             if pr == 1, prmod11x(fid, s, p, dr, q, ps, ds, qs, S, dS, qS, lam, flagm);
