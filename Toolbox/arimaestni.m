@@ -775,7 +775,6 @@ if (autmid == 1)
         end
     end
     % end of check seasonal underdifference
-    
     % check regular underdifference
     if (dr <= 1) && (p >= 1) && (fixdif == 0)
         aa = roots([1, x0(1:p)]);
@@ -1250,15 +1249,15 @@ if (flagm == 1) && (fixdif == 0)
     seb = sqrt(diag(M)*conp);
     tb = g ./ seb; %standard errors and t-values
     if (abs(tb(nmiss+1)) < 2.0)
-        mY = size(Y, 2);
+        mY = size(Y,2);
+        mYY = size(rnamesrg, 1);
         if nmiss > 0
             Y = [Y(:, 1:nmiss), Y(:, nmiss+1:mY)];
-            rnamesrg = [rnamesrg(1:nmiss, :); rnamesrg(nmiss+1:mY, :)];
+            rnamesrg = [rnamesrg(1:nmiss, :); rnamesrg(nmiss+1:mYY, :)];
         else
             Y = Y(:, 2:mY);
-            rnamesrg = rnamesrg(2:mY, :);
+            rnamesrg = rnamesrg(2:mYY, :);
         end
-        [nY, mY] = size(Y);
         rnamesr = 1;
         nreg = nreg - 1;
         parm.nreg = nreg;
